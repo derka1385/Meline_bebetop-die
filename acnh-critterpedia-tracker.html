@@ -1,0 +1,8894 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ma Critterpédia ACNH</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ==============================
+       Base visuelle Animal Crossing
+       ============================== */
+    :root {
+      --cream: #FFF8EE;
+      --paper: #FFFFFF;
+      --paper-soft: #FFFDF7;
+      --mint: #73C4A0;
+      --mint-strong: #21835F;
+      --leaf: #2F6F54;
+      --sky: #A8D8EA;
+      --water: #4D9FBE;
+      --yellow: #F6E27F;
+      --sand: #F9DFAE;
+      --coral: #F08D7E;
+      --red: #B94747;
+      --green: #247A50;
+      --ink: #243D36;
+      --muted: #63766F;
+      --line: rgba(36, 61, 54, 0.14);
+      --shadow: 0 14px 32px rgba(45, 73, 64, 0.16);
+      --shadow-soft: 0 8px 20px rgba(45, 73, 64, 0.10);
+      --radius: 16px;
+      --topbar-height: 84px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      color: var(--ink);
+      font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.45;
+      background:
+        linear-gradient(135deg, rgba(168, 216, 234, 0.44) 0 24%, transparent 24% 100%),
+        linear-gradient(180deg, #FFF7E9 0%, #FFFDF7 54%, #EAF8F2 100%);
+      background-attachment: fixed;
+    }
+
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+
+    .page {
+      width: min(1280px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 18px 0 44px;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 14px;
+      top: 10px;
+      z-index: 40;
+      transform: translateY(-150%);
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--ink);
+      text-decoration: none;
+      transition: transform 180ms ease;
+    }
+
+    .skip-link:focus { transform: translateY(0); }
+
+    /* ==============================
+       Header : objectif clair + progression
+       ============================== */
+    .hero {
+      display: grid;
+      gap: 16px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-main {
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .app-title {
+      margin: 0;
+      font-size: clamp(1.55rem, 4vw, 2.6rem);
+      line-height: 1.05;
+      font-weight: 900;
+    }
+
+    .hero-subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .summary-card {
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--paper-soft);
+    }
+
+    .summary-card strong {
+      display: block;
+      font-size: clamp(1.15rem, 4vw, 1.6rem);
+      font-weight: 900;
+      line-height: 1.05;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .summary-card span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 800;
+    }
+
+    .progress-wrap {
+      display: grid;
+      gap: 8px;
+    }
+
+    .progress-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      font-weight: 900;
+    }
+
+    .progress-head span:last-child {
+      color: var(--mint-strong);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .progress-track {
+      overflow: hidden;
+      height: 14px;
+      border-radius: 999px;
+      background: rgba(36, 61, 54, 0.10);
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--mint), var(--yellow), var(--sky));
+      transition: width 280ms ease;
+    }
+
+    /* ==============================
+       Barre d'actions claire et stable
+       ============================== */
+    .control-panel {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255, 253, 247, 0.94);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(12px);
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .tab-button {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 10px;
+      min-height: 52px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      color: var(--ink);
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(45, 73, 64, 0.06);
+      text-align: left;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+
+    .tab-button:hover { transform: translateY(-1px); }
+
+    .tab-button[aria-selected="true"] {
+      border-color: rgba(33, 131, 95, 0.48);
+      background: linear-gradient(135deg, #DDF6E8, #EAF6FB);
+    }
+
+    .tab-icon {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: var(--yellow);
+      color: #4E4A23;
+    }
+
+    .tab-button b {
+      display: block;
+      font-weight: 900;
+    }
+
+    .tab-button small {
+      display: block;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 0.78rem;
+    }
+
+    .tab-count {
+      color: var(--leaf);
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .filters {
+      display: grid;
+      gap: 10px;
+    }
+
+    .field, .segment {
+      display: grid;
+      gap: 7px;
+      min-width: 0;
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+
+    .field label, .segment legend {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 900;
+    }
+
+    .search-field {
+      position: relative;
+    }
+
+    .search-field input {
+      width: 100%;
+      min-height: 50px;
+      padding: 0 14px 0 44px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      color: var(--ink);
+      background: #fff;
+      outline: none;
+      font-weight: 800;
+    }
+
+    .search-field svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    .segment-options, .switch-row {
+      display: grid;
+      gap: 8px;
+    }
+
+    .segment-options { grid-template-columns: 1fr 1fr; }
+
+    .segment label, .switch, .reset-button {
+      min-height: 48px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: #fff;
+      color: var(--ink);
+      box-shadow: 0 4px 12px rgba(45, 73, 64, 0.06);
+    }
+
+    .segment label, .switch {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px 12px;
+      font-weight: 900;
+    }
+
+    .segment input, .switch input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .segment input:checked + span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 34px;
+      border-radius: 10px;
+      color: #304128;
+      background: var(--yellow);
+    }
+
+    .switch .switch-box {
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      width: 24px;
+      height: 24px;
+      border: 2px solid rgba(36, 61, 54, 0.24);
+      border-radius: 8px;
+      color: white;
+      background: white;
+      transition: background 160ms ease, border-color 160ms ease;
+    }
+
+    .switch input:checked + .switch-box {
+      border-color: var(--mint-strong);
+      background: var(--mint-strong);
+    }
+
+    .switch input:checked + .switch-box::after {
+      content: "✓";
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .reset-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 14px;
+      color: #9D3D35;
+      font-weight: 900;
+    }
+
+    .search-field input:focus,
+    .month-field input:focus,
+    .tab-button:focus-visible,
+    .segment input:focus-visible + span,
+    .switch input:focus-visible + .switch-box,
+    .reset-button:focus-visible,
+    .capture-input:focus-visible + span {
+      outline: 3px solid rgba(246, 226, 127, 0.88);
+      outline-offset: 2px;
+    }
+
+    /* ==============================
+       Timeline de chasse
+       ============================== */
+    .timeline-panel {
+      display: grid;
+      gap: 14px;
+      margin-top: 16px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .timeline-header {
+      display: grid;
+      gap: 10px;
+    }
+
+    .timeline-header h2 {
+      margin: 0;
+      font-size: clamp(1.18rem, 2.5vw, 1.55rem);
+      line-height: 1.12;
+      font-weight: 900;
+    }
+
+    .timeline-header p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .timeline-summary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      color: var(--leaf);
+      background: #E4F7EC;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timeline-controls {
+      display: grid;
+      gap: 10px;
+    }
+
+    .month-field input {
+      width: 100%;
+      min-height: 48px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      color: var(--ink);
+      background: #fff;
+      outline: none;
+      font-weight: 900;
+    }
+
+    .timeline-months {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 2px 2px 8px;
+      scrollbar-width: thin;
+    }
+
+    .month-node {
+      flex: 0 0 auto;
+      min-width: 118px;
+      padding: 10px;
+      border: 1px solid rgba(36, 61, 54, 0.12);
+      border-radius: 15px;
+      background: linear-gradient(180deg, #FFFFFF, #F4FBF7);
+      box-shadow: 0 4px 12px rgba(45, 73, 64, 0.06);
+    }
+
+    .month-node strong {
+      display: block;
+      font-weight: 900;
+    }
+
+    .month-node span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 900;
+    }
+
+    .timeline-results {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .timeline-card {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr);
+      gap: 10px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--paper-soft);
+    }
+
+    .timeline-card img {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(168, 216, 234, 0.42), rgba(249, 223, 174, 0.26));
+    }
+
+    .timeline-card-body {
+      display: grid;
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .timeline-card-head {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .timeline-card h3 {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.15;
+      font-weight: 900;
+      overflow-wrap: break-word;
+      word-break: normal;
+      hyphens: auto;
+    }
+
+    .timeline-type {
+      flex: 0 0 auto;
+      padding: 4px 8px;
+      border-radius: 999px;
+      color: var(--leaf);
+      background: #E4F7EC;
+      font-size: 0.76rem;
+      font-weight: 900;
+      justify-self: start;
+    }
+
+    .timeline-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .timeline-capture span {
+      min-height: 38px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+    }
+
+    /* ==============================
+       Liste et cartes
+       ============================== */
+    .list-top {
+      display: grid;
+      gap: 8px;
+      margin: 22px 2px 14px;
+    }
+
+    .list-top h2 {
+      margin: 0;
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      line-height: 1.1;
+      font-weight: 900;
+    }
+
+    .list-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      color: var(--muted);
+      font-weight: 900;
+    }
+
+    .meta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.76);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .card {
+      position: relative;
+      display: grid;
+      grid-template-columns: 116px minmax(0, 1fr);
+      gap: 0;
+      min-width: 0;
+      overflow: hidden;
+      border: 2px solid transparent;
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow-soft);
+      transition: transform 170ms ease, border-color 170ms ease, box-shadow 170ms ease, opacity 170ms ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .card.available {
+      border-color: rgba(36, 122, 80, 0.56);
+    }
+
+    .card.available::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      z-index: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      box-shadow: 0 0 0 0 rgba(36, 122, 80, 0.18);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+
+    .card.caught {
+      opacity: 0.58;
+    }
+
+    .image-zone {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      min-height: 176px;
+      padding: 12px;
+      background:
+        linear-gradient(180deg, rgba(168, 216, 234, 0.52), rgba(255, 248, 238, 0.88));
+    }
+
+    .image-zone img {
+      display: block;
+      width: 96px;
+      max-width: 100%;
+      height: 106px;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 12px rgba(36, 61, 54, 0.16));
+    }
+
+    .image-missing {
+      display: none;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .card-main {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 10px;
+      min-width: 0;
+      padding: 12px;
+    }
+
+    .card-head {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .card-title-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .card h3 {
+      min-width: 0;
+      margin: 0;
+      font-size: 1.08rem;
+      line-height: 1.16;
+      font-weight: 900;
+      overflow-wrap: break-word;
+      word-break: normal;
+      hyphens: auto;
+    }
+
+    .status-pill {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 900;
+      white-space: nowrap;
+      justify-self: start;
+    }
+
+    .status-pill.now {
+      color: var(--green);
+      background: #DFF6E9;
+    }
+
+    .status-pill.later {
+      color: var(--red);
+      background: #FFE7E1;
+    }
+
+    .caught-ribbon {
+      display: none;
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    .card.caught .caught-ribbon { display: block; }
+
+    .detail-list {
+      display: grid;
+      gap: 7px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .detail-list li {
+      display: grid;
+      grid-template-columns: 24px minmax(0, 1fr);
+      align-items: start;
+      gap: 7px;
+      color: #334E46;
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .detail-list svg {
+      width: 19px;
+      height: 19px;
+      color: var(--leaf);
+    }
+
+    .months.ok { color: var(--green); }
+    .months.no { color: var(--red); }
+
+    .card-bottom {
+      display: grid;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .price-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      color: var(--ink);
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .price-line small {
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 900;
+    }
+
+    .capture-label { display: block; }
+
+    .capture-input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .capture-label span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      border: 1px solid rgba(33, 131, 95, 0.35);
+      border-radius: 14px;
+      color: var(--leaf);
+      background: #F2FBF6;
+      font-weight: 900;
+      transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+    }
+
+    .capture-input:checked + span {
+      border-color: var(--green);
+      color: #fff;
+      background: var(--green);
+    }
+
+    .empty-state {
+      display: grid;
+      place-items: center;
+      min-height: 220px;
+      padding: 24px;
+      border: 2px dashed rgba(36, 61, 54, 0.18);
+      border-radius: var(--radius);
+      color: var(--muted);
+      background: rgba(255,255,255,0.74);
+      font-weight: 900;
+      text-align: center;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(36, 122, 80, 0.18); }
+      50% { box-shadow: 0 0 0 7px rgba(36, 122, 80, 0.07); }
+    }
+
+    /* ==============================
+       SVG symboles inline
+       ============================== */
+    .icon-sprite { display: none; }
+
+    /* ==============================
+       Responsive
+       ============================== */
+    @media (min-width: 680px) {
+      .hero {
+        grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+        align-items: center;
+        padding: 22px;
+      }
+
+      .tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+      .filters {
+        grid-template-columns: minmax(260px, 1.35fr) 210px;
+        align-items: end;
+      }
+
+      .switch-row { grid-template-columns: 1fr 1fr; }
+
+      .timeline-header {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+      }
+
+      .timeline-controls {
+        grid-template-columns: repeat(2, minmax(190px, 1fr));
+      }
+
+      .timeline-results { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (min-width: 860px) and (max-width: 1039px) {
+      .page { width: min(100% - 40px, 1280px); }
+
+      .card {
+        grid-template-columns: 124px minmax(0, 1fr);
+      }
+
+      .image-zone img {
+        width: 106px;
+        height: 116px;
+      }
+    }
+
+    @media (min-width: 1040px) {
+      .page { width: min(100% - 48px, 1680px); }
+
+      .control-panel {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+      .filters {
+        grid-template-columns: minmax(300px, 1.4fr) 210px minmax(300px, 1.1fr) auto;
+      }
+
+      .timeline-panel {
+        padding: 18px;
+      }
+
+      .timeline-results { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+      .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .card { grid-template-columns: 132px minmax(0, 1fr); }
+      .image-zone img { width: 112px; height: 122px; }
+    }
+
+    @media (min-width: 1240px) {
+      .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .card { grid-template-columns: 124px minmax(0, 1fr); }
+      .image-zone { min-height: 176px; }
+      .image-zone img { width: 108px; height: 122px; }
+      .card-main { padding: 14px; }
+    }
+
+    @media (min-width: 1500px) {
+      .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .timeline-results { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 420px) {
+      .page { width: min(100% - 18px, 1280px); }
+      .summary-grid { grid-template-columns: 1fr; }
+      .card { grid-template-columns: 100px minmax(0, 1fr); }
+      .image-zone { min-height: 154px; }
+      .image-zone img { width: 84px; height: 96px; }
+      .status-pill { white-space: normal; }
+      .timeline-card { grid-template-columns: 60px minmax(0, 1fr); }
+      .timeline-card img { width: 60px; height: 60px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">Aller au contenu</a>
+  <svg class="icon-sprite" aria-hidden="true">
+    <symbol id="i-search" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="m21 21-4.3-4.3"/><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-bug" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M8 10h8M9 6h6m-6 9h6m-3-9v13M5 8l3 3m11-3-3 3M4 15h4m12 0h-4M6 21l3-4m9 4-3-4"/><path fill="none" stroke="currentColor" stroke-width="2" d="M8 12c0-4 2-6 4-6s4 2 4 6-2 7-4 7-4-3-4-7Z"/></symbol>
+    <symbol id="i-fish" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 12s4-6 10-6 8 6 8 6-2 6-8 6S3 12 3 12Z"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M3 12 1 8v8l2-4Zm15-3 4-3v12l-4-3"/><circle cx="13" cy="11" r="1" fill="currentColor"/></symbol>
+    <symbol id="i-wave" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M3 16c3 0 3-2 6-2s3 2 6 2 3-2 6-2M3 10c3 0 3-2 6-2s3 2 6 2 3-2 6-2"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 21s7-6.1 7-12A7 7 0 1 0 5 9c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M8 3v4m8-4v4M4 10h16"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 7v6l4 2"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M8 10a4 4 0 1 1 8 0c0 6 3 5 3 8H5c0-3 3-2 3-8Z"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M10 20h4"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-speed" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 14a8 8 0 1 1 16 0"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="m12 14 5-5"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6 18h12"/></symbol>
+  </svg>
+
+  <div class="page">
+    <!-- ==============================
+         Header et statistiques globales
+         ============================== -->
+    <header class="hero">
+      <div class="hero-main">
+        <h1 class="app-title">Ma Critterpédia ACNH</h1>
+        <p class="hero-subtitle" id="monthLabel">Suivi de capture</p>
+        <div class="progress-wrap" aria-live="polite">
+          <div class="progress-head">
+            <span id="globalCounter">0 / 200 capturées</span>
+            <span id="progressPercent">0%</span>
+          </div>
+          <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+        </div>
+      </div>
+      <div class="summary-grid" aria-label="Résumé de collection">
+        <div class="summary-card"><strong id="missingTotal">200</strong><span>encore manquantes</span></div>
+        <div class="summary-card"><strong id="availableTotal">0</strong><span>disponibles ce mois-ci</span></div>
+        <div class="summary-card"><strong id="visibleTotal">0</strong><span>affichées maintenant</span></div>
+        <div class="summary-card"><strong id="activeHemiLabel">Nord</strong><span>hémisphère actif</span></div>
+      </div>
+    </header>
+
+    <!-- ==============================
+         Navigation et filtres principaux
+         ============================== -->
+    <section class="control-panel" aria-label="Contrôles du tracker">
+      <nav class="tabs" role="tablist" aria-label="Catégories">
+        <button class="tab-button" type="button" role="tab" aria-selected="true" data-type="bugs">
+          <span class="tab-icon"><svg width="21" height="21"><use href="#i-bug"></use></svg></span>
+          <span><b>Insectes</b><small id="tabMetaBugs">0 manquantes</small></span>
+          <span class="tab-count" id="tabCountBugs">0 / 80</span>
+        </button>
+        <button class="tab-button" type="button" role="tab" aria-selected="false" data-type="fish">
+          <span class="tab-icon"><svg width="21" height="21"><use href="#i-fish"></use></svg></span>
+          <span><b>Poissons</b><small id="tabMetaFish">0 manquantes</small></span>
+          <span class="tab-count" id="tabCountFish">0 / 80</span>
+        </button>
+        <button class="tab-button" type="button" role="tab" aria-selected="false" data-type="sea">
+          <span class="tab-icon"><svg width="21" height="21"><use href="#i-wave"></use></svg></span>
+          <span><b>Créatures marines</b><small id="tabMetaSea">0 manquantes</small></span>
+          <span class="tab-count" id="tabCountSea">0 / 40</span>
+        </button>
+      </nav>
+
+      <div class="filters">
+        <div class="field search-field">
+          <label for="searchInput">Rechercher par nom</label>
+          <svg width="21" height="21"><use href="#i-search"></use></svg>
+          <input id="searchInput" type="search" autocomplete="off" placeholder="Ex : requin, papillon, crabe">
+        </div>
+
+        <fieldset class="segment">
+          <legend>Hémisphère</legend>
+          <div class="segment-options">
+            <label><input type="radio" name="hemisphere" value="nord" id="hemiNord"><span>Nord</span></label>
+            <label><input type="radio" name="hemisphere" value="sud" id="hemiSud"><span>Sud</span></label>
+          </div>
+        </fieldset>
+
+        <div class="switch-row">
+          <label class="switch"><input type="checkbox" id="availableOnly"><span class="switch-box"></span><span>Ce mois-ci</span></label>
+          <label class="switch"><input type="checkbox" id="missingOnly"><span class="switch-box"></span><span>Manquantes</span></label>
+        </div>
+
+        <button class="reset-button" type="button" id="resetButton">Réinitialiser</button>
+      </div>
+    </section>
+
+    <!-- ==============================
+         Timeline des manquantes capturables
+         ============================== -->
+    <section class="timeline-panel" aria-labelledby="timelineTitle">
+      <div class="timeline-header">
+        <div>
+          <h2 id="timelineTitle">Timeline de chasse</h2>
+          <p id="timelineRangeLabel">Manquantes capturables sur la période</p>
+        </div>
+        <div class="timeline-summary" id="timelineSummary">0 manquante</div>
+      </div>
+
+      <div class="timeline-controls">
+        <div class="field month-field">
+          <label for="timelineStart">Mois de début</label>
+          <input id="timelineStart" type="month">
+        </div>
+        <div class="field month-field">
+          <label for="timelineEnd">Mois de fin</label>
+          <input id="timelineEnd" type="month">
+        </div>
+      </div>
+
+      <div class="timeline-months" id="timelineMonths" aria-label="Mois de la période"></div>
+      <div class="timeline-results" id="timelineResults" aria-live="polite"></div>
+    </section>
+
+    <!-- ==============================
+         Grille des bestioles
+         ============================== -->
+    <main id="content" tabindex="-1">
+      <div class="list-top">
+        <h2 id="sectionTitle">Insectes</h2>
+        <div class="list-meta" id="listMeta"></div>
+      </div>
+      <section class="grid" id="critterGrid" role="tabpanel" aria-labelledby="sectionTitle"></section>
+    </main>
+  </div>
+
+  <script>
+    /* ==============================
+       Données hardcodées : aucune récupération réseau à l'ouverture.
+       Images locales dans ./images/bugs, ./images/fish et ./images/sea.
+       ============================== */
+    const CRITTERS = {
+  "bugs": [
+    {
+      "id": 1,
+      "slug": "common_butterfly",
+      "nom": "Piéride de la rave",
+      "nomEN": "Common Butterfly",
+      "lieu": "Voler près des fleurs",
+      "prixBase": 160,
+      "prixSpecial": 240,
+      "moisNord": [
+        9,
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "moisSud": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 4,
+      "heureFin": 19,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 4,
+          "fin": 19
+        }
+      ],
+      "image": "images/bugs/common_butterfly.png",
+      "icon": "bug"
+    },
+    {
+      "id": 2,
+      "slug": "yellow_butterfly",
+      "nom": "Citrin",
+      "nomEN": "Yellow Butterfly",
+      "lieu": "Voler près des fleurs",
+      "prixBase": 160,
+      "prixSpecial": 240,
+      "moisNord": [
+        3,
+        4,
+        5,
+        6,
+        9,
+        10
+      ],
+      "moisSud": [
+        9,
+        10,
+        11,
+        12,
+        3,
+        4
+      ],
+      "heureDebut": 4,
+      "heureFin": 19,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 4,
+          "fin": 19
+        }
+      ],
+      "image": "images/bugs/yellow_butterfly.png",
+      "icon": "bug"
+    },
+    {
+      "id": 3,
+      "slug": "tiger_butterfly",
+      "nom": "Machaon",
+      "nomEN": "Tiger Butterfly",
+      "lieu": "Voler près des fleurs",
+      "prixBase": 240,
+      "prixSpecial": 360,
+      "moisNord": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        9,
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 4,
+      "heureFin": 19,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 4,
+          "fin": 19
+        }
+      ],
+      "image": "images/bugs/tiger_butterfly.png",
+      "icon": "bug"
+    },
+    {
+      "id": 4,
+      "slug": "peacock_butterfly",
+      "nom": "Papilio bianor",
+      "nomEN": "Peacock Butterfly",
+      "lieu": "Près des fleurs hybrides",
+      "prixBase": 2500,
+      "prixSpecial": 3750,
+      "moisNord": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "moisSud": [
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 4,
+      "heureFin": 19,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 4,
+          "fin": 19
+        }
+      ],
+      "image": "images/bugs/peacock_butterfly.png",
+      "icon": "bug"
+    },
+    {
+      "id": 5,
+      "slug": "common_bluebottle",
+      "nom": "Graphium sarpedon",
+      "nomEN": "Common Bluebottle",
+      "lieu": "Voler près des fleurs",
+      "prixBase": 300,
+      "prixSpecial": 450,
+      "moisNord": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "moisSud": [
+        9,
+        10,
+        11,
+        12,
+        1,
+        2
+      ],
+      "heureDebut": 4,
+      "heureFin": 19,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 4,
+          "fin": 19
+        }
+      ],
+      "image": "images/bugs/common_bluebottle.png",
+      "icon": "bug"
+    },
+    {
+      "id": 6,
+      "slug": "paper_kite_butterfly",
+      "nom": "Grand planeur",
+      "nomEN": "Paper Kite Butterfly",
+      "lieu": "Voler près des fleurs",
+      "prixBase": 1000,
+      "prixSpecial": 1500,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 8,
+      "heureFin": 19,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 8,
+          "fin": 19
+        }
+      ],
+      "image": "images/bugs/paper_kite_butterfly.png",
+      "icon": "bug"
+    },
+    {
+      "id": 7,
+      "slug": "great_purple_emperor",
+      "nom": "Sasakia charonda",
+      "nomEN": "Great Purple Emperor",
+      "lieu": "Voler près des fleurs",
+      "prixBase": 3000,
+      "prixSpecial": 4500,
+      "moisNord": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "moisSud": [
+        11,
+        12,
+        1,
+        2
+      ],
+      "heureDebut": 4,
+      "heureFin": 19,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 4,
+          "fin": 19
+        }
+      ],
+      "image": "images/bugs/great_purple_emperor.png",
+      "icon": "bug"
+    },
+    {
+      "id": 8,
+      "slug": "monarch_butterfly",
+      "nom": "Monarque",
+      "nomEN": "Monarch Butterfly",
+      "lieu": "Voler près des fleurs",
+      "prixBase": 140,
+      "prixSpecial": 210,
+      "moisNord": [
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        3,
+        4,
+        5
+      ],
+      "heureDebut": 4,
+      "heureFin": 17,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 4,
+          "fin": 17
+        }
+      ],
+      "image": "images/bugs/monarch_butterfly.png",
+      "icon": "bug"
+    },
+    {
+      "id": 9,
+      "slug": "emperor_butterfly",
+      "nom": "Morpho bleu",
+      "nomEN": "Emperor Butterfly",
+      "lieu": "Voler près des fleurs",
+      "prixBase": 4000,
+      "prixSpecial": 6000,
+      "moisNord": [
+        6,
+        7,
+        8,
+        9,
+        12,
+        1,
+        2,
+        3
+      ],
+      "moisSud": [
+        6,
+        7,
+        8,
+        9,
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 17,
+      "heureFin": 8,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 17,
+          "fin": 8
+        }
+      ],
+      "image": "images/bugs/emperor_butterfly.png",
+      "icon": "bug"
+    },
+    {
+      "id": 10,
+      "slug": "agrias_butterfly",
+      "nom": "Agrias",
+      "nomEN": "Agrias Butterfly",
+      "lieu": "Voler près des fleurs",
+      "prixBase": 3000,
+      "prixSpecial": 4500,
+      "moisNord": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 8,
+      "heureFin": 17,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 8,
+          "fin": 17
+        }
+      ],
+      "image": "images/bugs/agrias_butterfly.png",
+      "icon": "bug"
+    },
+    {
+      "id": 11,
+      "slug": "rajah_brookes_birdwing",
+      "nom": "Troides brookiana",
+      "nomEN": "Rajah Brooke's Birdwing",
+      "lieu": "Voler près des fleurs",
+      "prixBase": 2500,
+      "prixSpecial": 3750,
+      "moisNord": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        12,
+        1,
+        2
+      ],
+      "moisSud": [
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 8,
+      "heureFin": 17,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 8,
+          "fin": 17
+        }
+      ],
+      "image": "images/bugs/rajah_brookes_birdwing.png",
+      "icon": "bug"
+    },
+    {
+      "id": 12,
+      "slug": "queen_alexandras_birdwing",
+      "nom": "Troides alexandrae",
+      "nomEN": "Queen Alexandra's Birdwing",
+      "lieu": "Voler près des fleurs",
+      "prixBase": 4000,
+      "prixSpecial": 6000,
+      "moisNord": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 8,
+      "heureFin": 16,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 8,
+          "fin": 16
+        }
+      ],
+      "image": "images/bugs/queen_alexandras_birdwing.png",
+      "icon": "bug"
+    },
+    {
+      "id": 13,
+      "slug": "moth",
+      "nom": "Papillon de nuit",
+      "nomEN": "Moth",
+      "lieu": "Près des lumières",
+      "prixBase": 130,
+      "prixSpecial": 195,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 19,
+      "heureFin": 4,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 19,
+          "fin": 4
+        }
+      ],
+      "image": "images/bugs/moth.png",
+      "icon": "bug"
+    },
+    {
+      "id": 14,
+      "slug": "atlas_moth",
+      "nom": "Attacus Atlas",
+      "nomEN": "Atlas Moth",
+      "lieu": "Sur les arbres",
+      "prixBase": 3000,
+      "prixSpecial": 4500,
+      "moisNord": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 19,
+      "heureFin": 4,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 19,
+          "fin": 4
+        }
+      ],
+      "image": "images/bugs/atlas_moth.png",
+      "icon": "bug"
+    },
+    {
+      "id": 15,
+      "slug": "madagascan_sunset_moth",
+      "nom": "Chrysiridia rhipheus",
+      "nomEN": "Madagascan Sunset Moth",
+      "lieu": "Voler près des fleurs",
+      "prixBase": 2500,
+      "prixSpecial": 3750,
+      "moisNord": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 8,
+      "heureFin": 16,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 8,
+          "fin": 16
+        }
+      ],
+      "image": "images/bugs/madagascan_sunset_moth.png",
+      "icon": "bug"
+    },
+    {
+      "id": 16,
+      "slug": "long_locust",
+      "nom": "Acrida cinerea",
+      "nomEN": "Long Locust",
+      "lieu": "Au sol",
+      "prixBase": 200,
+      "prixSpecial": 300,
+      "moisNord": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "heureDebut": 8,
+      "heureFin": 19,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 8,
+          "fin": 19
+        }
+      ],
+      "image": "images/bugs/long_locust.png",
+      "icon": "bug"
+    },
+    {
+      "id": 17,
+      "slug": "migratory_locust",
+      "nom": "Criquet pèlerin",
+      "nomEN": "Migratory Locust",
+      "lieu": "Au sol",
+      "prixBase": 600,
+      "prixSpecial": 900,
+      "moisNord": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "heureDebut": 8,
+      "heureFin": 19,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 8,
+          "fin": 19
+        }
+      ],
+      "image": "images/bugs/migratory_locust.png",
+      "icon": "bug"
+    },
+    {
+      "id": 18,
+      "slug": "rice_grasshopper",
+      "nom": "Criquet",
+      "nomEN": "Rice Grasshopper",
+      "lieu": "Au sol",
+      "prixBase": 400,
+      "prixSpecial": 600,
+      "moisNord": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "heureDebut": 8,
+      "heureFin": 19,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 8,
+          "fin": 19
+        }
+      ],
+      "image": "images/bugs/rice_grasshopper.png",
+      "icon": "bug"
+    },
+    {
+      "id": 19,
+      "slug": "grasshopper",
+      "nom": "Sauterelle",
+      "nomEN": "Grasshopper",
+      "lieu": "Au sol",
+      "prixBase": 160,
+      "prixSpecial": 240,
+      "moisNord": [
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 8,
+      "heureFin": 17,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 8,
+          "fin": 17
+        }
+      ],
+      "image": "images/bugs/grasshopper.png",
+      "icon": "bug"
+    },
+    {
+      "id": 20,
+      "slug": "cricket",
+      "nom": "Grillon des prés",
+      "nomEN": "Cricket",
+      "lieu": "Au sol",
+      "prixBase": 130,
+      "prixSpecial": 195,
+      "moisNord": [
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        3,
+        4,
+        5
+      ],
+      "heureDebut": 17,
+      "heureFin": 8,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 17,
+          "fin": 8
+        }
+      ],
+      "image": "images/bugs/cricket.png",
+      "icon": "bug"
+    },
+    {
+      "id": 21,
+      "slug": "bell_cricket",
+      "nom": "Grillon du Midi",
+      "nomEN": "Bell Cricket",
+      "lieu": "Au sol",
+      "prixBase": 430,
+      "prixSpecial": 645,
+      "moisNord": [
+        9,
+        10
+      ],
+      "moisSud": [
+        3,
+        4
+      ],
+      "heureDebut": 17,
+      "heureFin": 8,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 17,
+          "fin": 8
+        }
+      ],
+      "image": "images/bugs/bell_cricket.png",
+      "icon": "bug"
+    },
+    {
+      "id": 22,
+      "slug": "mantis",
+      "nom": "Mante religieuse",
+      "nomEN": "Mantis",
+      "lieu": "Sur les fleurs",
+      "prixBase": 430,
+      "prixSpecial": 645,
+      "moisNord": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        9,
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "heureDebut": 8,
+      "heureFin": 17,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 8,
+          "fin": 17
+        }
+      ],
+      "image": "images/bugs/mantis.png",
+      "icon": "bug"
+    },
+    {
+      "id": 23,
+      "slug": "orchid_mantis",
+      "nom": "Mante orchidée",
+      "nomEN": "Orchid Mantis",
+      "lieu": "Sur les fleurs blanches",
+      "prixBase": 2400,
+      "prixSpecial": 3600,
+      "moisNord": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        9,
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "heureDebut": 8,
+      "heureFin": 17,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 8,
+          "fin": 17
+        }
+      ],
+      "image": "images/bugs/orchid_mantis.png",
+      "icon": "bug"
+    },
+    {
+      "id": 24,
+      "slug": "honeybee",
+      "nom": "Abeille naine",
+      "nomEN": "Honeybee",
+      "lieu": "Voler près des fleurs",
+      "prixBase": 200,
+      "prixSpecial": 300,
+      "moisNord": [
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "moisSud": [
+        9,
+        10,
+        11,
+        12,
+        1
+      ],
+      "heureDebut": 8,
+      "heureFin": 17,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 8,
+          "fin": 17
+        }
+      ],
+      "image": "images/bugs/honeybee.png",
+      "icon": "bug"
+    },
+    {
+      "id": 25,
+      "slug": "wasp",
+      "nom": "Guêpe",
+      "nomEN": "Wasp",
+      "lieu": "En secouant les arbres",
+      "prixBase": 2500,
+      "prixSpecial": 3750,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/wasp.png",
+      "icon": "bug"
+    },
+    {
+      "id": 26,
+      "slug": "brown_cicada",
+      "nom": "Cigale cercope",
+      "nomEN": "Brown Cicada",
+      "lieu": "Sur les arbres",
+      "prixBase": 250,
+      "prixSpecial": 375,
+      "moisNord": [
+        7,
+        8
+      ],
+      "moisSud": [
+        1,
+        2
+      ],
+      "heureDebut": 8,
+      "heureFin": 17,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 8,
+          "fin": 17
+        }
+      ],
+      "image": "images/bugs/brown_cicada.png",
+      "icon": "bug"
+    },
+    {
+      "id": 27,
+      "slug": "robust_cicada",
+      "nom": "Cigale hyalessa",
+      "nomEN": "Robust Cicada",
+      "lieu": "Sur les arbres",
+      "prixBase": 300,
+      "prixSpecial": 450,
+      "moisNord": [
+        7,
+        8
+      ],
+      "moisSud": [
+        1,
+        2
+      ],
+      "heureDebut": 8,
+      "heureFin": 17,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 8,
+          "fin": 17
+        }
+      ],
+      "image": "images/bugs/robust_cicada.png",
+      "icon": "bug"
+    },
+    {
+      "id": 28,
+      "slug": "giant_cicada",
+      "nom": "Cigale géante",
+      "nomEN": "Giant Cicada",
+      "lieu": "Sur les arbres",
+      "prixBase": 500,
+      "prixSpecial": 750,
+      "moisNord": [
+        7,
+        8
+      ],
+      "moisSud": [
+        1,
+        2
+      ],
+      "heureDebut": 8,
+      "heureFin": 17,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 8,
+          "fin": 17
+        }
+      ],
+      "image": "images/bugs/giant_cicada.png",
+      "icon": "bug"
+    },
+    {
+      "id": 29,
+      "slug": "walker_cicada",
+      "nom": "Cigale cicadelle",
+      "nomEN": "Walker Cicada",
+      "lieu": "Sur les arbres",
+      "prixBase": 400,
+      "prixSpecial": 600,
+      "moisNord": [
+        8,
+        9
+      ],
+      "moisSud": [
+        2,
+        3
+      ],
+      "heureDebut": 8,
+      "heureFin": 17,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 8,
+          "fin": 17
+        }
+      ],
+      "image": "images/bugs/walker_cicada.png",
+      "icon": "bug"
+    },
+    {
+      "id": 30,
+      "slug": "evening_cicada",
+      "nom": "Cigale higurashi",
+      "nomEN": "Evening Cicada",
+      "lieu": "Sur les arbres",
+      "prixBase": 550,
+      "prixSpecial": 825,
+      "moisNord": [
+        7,
+        8
+      ],
+      "moisSud": [
+        1,
+        2
+      ],
+      "heureDebut": 4,
+      "heureFin": 8,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 4,
+          "fin": 8
+        },
+        {
+          "debut": 16,
+          "fin": 19
+        }
+      ],
+      "image": "images/bugs/evening_cicada.png",
+      "icon": "bug"
+    },
+    {
+      "id": 31,
+      "slug": "cicada_shell",
+      "nom": "Mue de cigale",
+      "nomEN": "Cicada Shell",
+      "lieu": "Sur les arbres",
+      "prixBase": 10,
+      "prixSpecial": 15,
+      "moisNord": [
+        7,
+        8
+      ],
+      "moisSud": [
+        1,
+        2
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/cicada_shell.png",
+      "icon": "bug"
+    },
+    {
+      "id": 32,
+      "slug": "red_dragonfly",
+      "nom": "Sympetrum",
+      "nomEN": "Red Dragonfly",
+      "lieu": "Voler près des fleurs",
+      "prixBase": 180,
+      "prixSpecial": 270,
+      "moisNord": [
+        9,
+        10
+      ],
+      "moisSud": [
+        3,
+        4
+      ],
+      "heureDebut": 8,
+      "heureFin": 19,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 8,
+          "fin": 19
+        }
+      ],
+      "image": "images/bugs/red_dragonfly.png",
+      "icon": "bug"
+    },
+    {
+      "id": 33,
+      "slug": "darner_dragonfly",
+      "nom": "Anax napolitain",
+      "nomEN": "Darner Dragonfly",
+      "lieu": "Voler près des fleurs",
+      "prixBase": 230,
+      "prixSpecial": 345,
+      "moisNord": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "moisSud": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "heureDebut": 8,
+      "heureFin": 17,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 8,
+          "fin": 17
+        }
+      ],
+      "image": "images/bugs/darner_dragonfly.png",
+      "icon": "bug"
+    },
+    {
+      "id": 34,
+      "slug": "banded_dragonfly",
+      "nom": "Cordulégastre",
+      "nomEN": "Banded Dragonfly",
+      "lieu": "Voler près des fleurs",
+      "prixBase": 4500,
+      "prixSpecial": 6750,
+      "moisNord": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "moisSud": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "heureDebut": 8,
+      "heureFin": 17,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 8,
+          "fin": 17
+        }
+      ],
+      "image": "images/bugs/banded_dragonfly.png",
+      "icon": "bug"
+    },
+    {
+      "id": 35,
+      "slug": "damselfly",
+      "nom": "Demoiselle",
+      "nomEN": "Damselfly",
+      "lieu": "Voler près des fleurs",
+      "prixBase": 500,
+      "prixSpecial": 750,
+      "moisNord": [
+        11,
+        12,
+        1,
+        2
+      ],
+      "moisSud": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/damselfly.png",
+      "icon": "bug"
+    },
+    {
+      "id": 36,
+      "slug": "firefly",
+      "nom": "Luciole",
+      "nomEN": "Firefly",
+      "lieu": "Voler près de l'eau",
+      "prixBase": 300,
+      "prixSpecial": 450,
+      "moisNord": [
+        6
+      ],
+      "moisSud": [
+        12
+      ],
+      "heureDebut": 19,
+      "heureFin": 4,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 19,
+          "fin": 4
+        }
+      ],
+      "image": "images/bugs/firefly.png",
+      "icon": "bug"
+    },
+    {
+      "id": 37,
+      "slug": "mole_cricket",
+      "nom": "Taupe-grillon",
+      "nomEN": "Mole Cricket",
+      "lieu": "Sous terre",
+      "prixBase": 500,
+      "prixSpecial": 750,
+      "moisNord": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "moisSud": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/mole_cricket.png",
+      "icon": "bug"
+    },
+    {
+      "id": 38,
+      "slug": "pondskater",
+      "nom": "Patineur",
+      "nomEN": "Pondskater",
+      "lieu": "Sur les étangs et rivières",
+      "prixBase": 130,
+      "prixSpecial": 195,
+      "moisNord": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 8,
+      "heureFin": 19,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 8,
+          "fin": 19
+        }
+      ],
+      "image": "images/bugs/pondskater.png",
+      "icon": "bug"
+    },
+    {
+      "id": 39,
+      "slug": "diving_beetle",
+      "nom": "Dytique",
+      "nomEN": "Diving Beetle",
+      "lieu": "Sur les étangs et rivières",
+      "prixBase": 800,
+      "prixSpecial": 1200,
+      "moisNord": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 8,
+      "heureFin": 19,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 8,
+          "fin": 19
+        }
+      ],
+      "image": "images/bugs/diving_beetle.png",
+      "icon": "bug"
+    },
+    {
+      "id": 40,
+      "slug": "giant_water_bug",
+      "nom": "Punaise d'eau géante",
+      "nomEN": "Giant Water Bug",
+      "lieu": "Sur les étangs et rivières",
+      "prixBase": 2000,
+      "prixSpecial": 3000,
+      "moisNord": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 19,
+      "heureFin": 8,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 19,
+          "fin": 8
+        }
+      ],
+      "image": "images/bugs/giant_water_bug.png",
+      "icon": "bug"
+    },
+    {
+      "id": 41,
+      "slug": "stinkbug",
+      "nom": "Punaise",
+      "nomEN": "Stinkbug",
+      "lieu": "Sur les fleurs",
+      "prixBase": 120,
+      "prixSpecial": 180,
+      "moisNord": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "moisSud": [
+        9,
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/stinkbug.png",
+      "icon": "bug"
+    },
+    {
+      "id": 42,
+      "slug": "man-faced_stink_bug",
+      "nom": "Catacanthus",
+      "nomEN": "Man-faced Stink Bug",
+      "lieu": "Sur les fleurs",
+      "prixBase": 1000,
+      "prixSpecial": 1500,
+      "moisNord": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "moisSud": [
+        9,
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "heureDebut": 19,
+      "heureFin": 8,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 19,
+          "fin": 8
+        }
+      ],
+      "image": "images/bugs/man-faced_stink_bug.png",
+      "icon": "bug"
+    },
+    {
+      "id": 43,
+      "slug": "ladybug",
+      "nom": "Coccinelle",
+      "nomEN": "Ladybug",
+      "lieu": "Sur les fleurs",
+      "prixBase": 200,
+      "prixSpecial": 300,
+      "moisNord": [
+        3,
+        4,
+        5,
+        6,
+        10
+      ],
+      "moisSud": [
+        4,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 8,
+      "heureFin": 17,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 8,
+          "fin": 17
+        }
+      ],
+      "image": "images/bugs/ladybug.png",
+      "icon": "bug"
+    },
+    {
+      "id": 44,
+      "slug": "tiger_beetle",
+      "nom": "Cicindèle",
+      "nomEN": "Tiger Beetle",
+      "lieu": "Au sol",
+      "prixBase": 1500,
+      "prixSpecial": 2250,
+      "moisNord": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/tiger_beetle.png",
+      "icon": "bug"
+    },
+    {
+      "id": 45,
+      "slug": "jewel_beetle",
+      "nom": "Bupreste",
+      "nomEN": "Jewel Beetle",
+      "lieu": "Sur les souches",
+      "prixBase": 2400,
+      "prixSpecial": 3600,
+      "moisNord": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "moisSud": [
+        11,
+        12,
+        1,
+        2
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/jewel_beetle.png",
+      "icon": "bug"
+    },
+    {
+      "id": 46,
+      "slug": "violin_beetle",
+      "nom": "Mormolyce",
+      "nomEN": "Violin Beetle",
+      "lieu": "Sur les souches",
+      "prixBase": 450,
+      "prixSpecial": 675,
+      "moisNord": [
+        5,
+        6,
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        3,
+        4,
+        5,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/violin_beetle.png",
+      "icon": "bug"
+    },
+    {
+      "id": 47,
+      "slug": "citrus_long-horned_beetle",
+      "nom": "Capricorne des agrumes",
+      "nomEN": "Citrus Long-horned Beetle",
+      "lieu": "Sur les souches",
+      "prixBase": 350,
+      "prixSpecial": 525,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/citrus_long-horned_beetle.png",
+      "icon": "bug"
+    },
+    {
+      "id": 48,
+      "slug": "rosalia_batesi_beetle",
+      "nom": "Rosalia batesi",
+      "nomEN": "Rosalia Batesi Beetle",
+      "lieu": "Sur les souches",
+      "prixBase": 3000,
+      "prixSpecial": 4500,
+      "moisNord": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/rosalia_batesi_beetle.png",
+      "icon": "bug"
+    },
+    {
+      "id": 49,
+      "slug": "blue_weevil_beetle",
+      "nom": "Charançon bleu",
+      "nomEN": "Blue Weevil Beetle",
+      "lieu": "Sur les palmiers",
+      "prixBase": 800,
+      "prixSpecial": 1200,
+      "moisNord": [
+        7,
+        8
+      ],
+      "moisSud": [
+        1,
+        2
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/blue_weevil_beetle.png",
+      "icon": "bug"
+    },
+    {
+      "id": 50,
+      "slug": "dung_beetle",
+      "nom": "Bousier",
+      "nomEN": "Dung Beetle",
+      "lieu": "Au sol",
+      "prixBase": 3000,
+      "prixSpecial": 4500,
+      "moisNord": [
+        12,
+        1,
+        2
+      ],
+      "moisSud": [
+        6,
+        7,
+        8
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/dung_beetle.png",
+      "icon": "bug"
+    },
+    {
+      "id": 51,
+      "slug": "earth-boring_dung_beetle",
+      "nom": "Geotrupidae",
+      "nomEN": "Earth-boring Dung Beetle",
+      "lieu": "Au sol",
+      "prixBase": 300,
+      "prixSpecial": 450,
+      "moisNord": [
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/earth-boring_dung_beetle.png",
+      "icon": "bug"
+    },
+    {
+      "id": 52,
+      "slug": "scarab_beetle",
+      "nom": "Scarabée",
+      "nomEN": "Scarab Beetle",
+      "lieu": "Sur les arbres",
+      "prixBase": 10000,
+      "prixSpecial": 15000,
+      "moisNord": [
+        7,
+        8
+      ],
+      "moisSud": [
+        1,
+        2
+      ],
+      "heureDebut": 23,
+      "heureFin": 8,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 23,
+          "fin": 8
+        }
+      ],
+      "image": "images/bugs/scarab_beetle.png",
+      "icon": "bug"
+    },
+    {
+      "id": 53,
+      "slug": "drone_beetle",
+      "nom": "Pseudotorynorrhina",
+      "nomEN": "Drone Beetle",
+      "lieu": "Sur les arbres",
+      "prixBase": 200,
+      "prixSpecial": 300,
+      "moisNord": [
+        6,
+        7,
+        8
+      ],
+      "moisSud": [
+        12,
+        1,
+        2
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/drone_beetle.png",
+      "icon": "bug"
+    },
+    {
+      "id": 54,
+      "slug": "goliath_beetle",
+      "nom": "Scarabée Goliath",
+      "nomEN": "Goliath Beetle",
+      "lieu": "Sur les palmiers",
+      "prixBase": 8000,
+      "prixSpecial": 12000,
+      "moisNord": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 17,
+      "heureFin": 8,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 17,
+          "fin": 8
+        }
+      ],
+      "image": "images/bugs/goliath_beetle.png",
+      "icon": "bug"
+    },
+    {
+      "id": 55,
+      "slug": "saw_stag",
+      "nom": "Lucane inclinatus",
+      "nomEN": "Saw Stag",
+      "lieu": "Sur les arbres",
+      "prixBase": 2000,
+      "prixSpecial": 3000,
+      "moisNord": [
+        7,
+        8
+      ],
+      "moisSud": [
+        1,
+        2
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/saw_stag.png",
+      "icon": "bug"
+    },
+    {
+      "id": 56,
+      "slug": "miyama_stag",
+      "nom": "Lucane miyama",
+      "nomEN": "Miyama Stag",
+      "lieu": "Sur les arbres",
+      "prixBase": 1000,
+      "prixSpecial": 1500,
+      "moisNord": [
+        7,
+        8
+      ],
+      "moisSud": [
+        1,
+        2
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/miyama_stag.png",
+      "icon": "bug"
+    },
+    {
+      "id": 57,
+      "slug": "giant_stag",
+      "nom": "Lucane cerf-volant",
+      "nomEN": "Giant Stag",
+      "lieu": "Sur les arbres",
+      "prixBase": 10000,
+      "prixSpecial": 15000,
+      "moisNord": [
+        7,
+        8
+      ],
+      "moisSud": [
+        1,
+        2
+      ],
+      "heureDebut": 23,
+      "heureFin": 8,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 23,
+          "fin": 8
+        }
+      ],
+      "image": "images/bugs/giant_stag.png",
+      "icon": "bug"
+    },
+    {
+      "id": 58,
+      "slug": "rainbow_stag",
+      "nom": "Lucane copris irisé",
+      "nomEN": "Rainbow Stag",
+      "lieu": "Sur les arbres",
+      "prixBase": 6000,
+      "prixSpecial": 9000,
+      "moisNord": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 19,
+      "heureFin": 8,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 19,
+          "fin": 8
+        }
+      ],
+      "image": "images/bugs/rainbow_stag.png",
+      "icon": "bug"
+    },
+    {
+      "id": 59,
+      "slug": "cyclommatus_stag",
+      "nom": "Lucane cyclommatus",
+      "nomEN": "Cyclommatus Stag",
+      "lieu": "Sur les palmiers",
+      "prixBase": 8000,
+      "prixSpecial": 12000,
+      "moisNord": [
+        7,
+        8
+      ],
+      "moisSud": [
+        1,
+        2
+      ],
+      "heureDebut": 17,
+      "heureFin": 8,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 17,
+          "fin": 8
+        }
+      ],
+      "image": "images/bugs/cyclommatus_stag.png",
+      "icon": "bug"
+    },
+    {
+      "id": 60,
+      "slug": "golden_stag",
+      "nom": "Lucane lamprima",
+      "nomEN": "Golden Stag",
+      "lieu": "Sur les palmiers",
+      "prixBase": 12000,
+      "prixSpecial": 18000,
+      "moisNord": [
+        7,
+        8
+      ],
+      "moisSud": [
+        1,
+        2
+      ],
+      "heureDebut": 17,
+      "heureFin": 8,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 17,
+          "fin": 8
+        }
+      ],
+      "image": "images/bugs/golden_stag.png",
+      "icon": "bug"
+    },
+    {
+      "id": 61,
+      "slug": "giraffe_stag",
+      "nom": "Lucane girafe",
+      "nomEN": "Giraffe Stag",
+      "lieu": "Sur les palmiers",
+      "prixBase": 12000,
+      "prixSpecial": 18000,
+      "moisNord": [
+        7,
+        8
+      ],
+      "moisSud": [
+        1,
+        2
+      ],
+      "heureDebut": 17,
+      "heureFin": 8,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 17,
+          "fin": 8
+        }
+      ],
+      "image": "images/bugs/giraffe_stag.png",
+      "icon": "bug"
+    },
+    {
+      "id": 62,
+      "slug": "horned_dynastid",
+      "nom": "Scarabée kabuto",
+      "nomEN": "Horned Dynastid",
+      "lieu": "Sur les arbres",
+      "prixBase": 1350,
+      "prixSpecial": 2025,
+      "moisNord": [
+        7,
+        8
+      ],
+      "moisSud": [
+        1,
+        2
+      ],
+      "heureDebut": 17,
+      "heureFin": 8,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 17,
+          "fin": 8
+        }
+      ],
+      "image": "images/bugs/horned_dynastid.png",
+      "icon": "bug"
+    },
+    {
+      "id": 63,
+      "slug": "horned_atlas",
+      "nom": "Scarabée Atlas",
+      "nomEN": "Horned Atlas",
+      "lieu": "Sur les palmiers",
+      "prixBase": 8000,
+      "prixSpecial": 12000,
+      "moisNord": [
+        7,
+        8
+      ],
+      "moisSud": [
+        1,
+        2
+      ],
+      "heureDebut": 17,
+      "heureFin": 8,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 17,
+          "fin": 8
+        }
+      ],
+      "image": "images/bugs/horned_atlas.png",
+      "icon": "bug"
+    },
+    {
+      "id": 64,
+      "slug": "horned_elephant",
+      "nom": "Scarabée éléphant",
+      "nomEN": "Horned Elephant",
+      "lieu": "Sur les palmiers",
+      "prixBase": 8000,
+      "prixSpecial": 12000,
+      "moisNord": [
+        7,
+        8
+      ],
+      "moisSud": [
+        1,
+        2
+      ],
+      "heureDebut": 17,
+      "heureFin": 8,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 17,
+          "fin": 8
+        }
+      ],
+      "image": "images/bugs/horned_elephant.png",
+      "icon": "bug"
+    },
+    {
+      "id": 65,
+      "slug": "horned_hercules",
+      "nom": "Scarabée Hercule",
+      "nomEN": "Horned Hercules",
+      "lieu": "Sur les palmiers",
+      "prixBase": 12000,
+      "prixSpecial": 18000,
+      "moisNord": [
+        7,
+        8
+      ],
+      "moisSud": [
+        1,
+        2
+      ],
+      "heureDebut": 17,
+      "heureFin": 8,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 17,
+          "fin": 8
+        }
+      ],
+      "image": "images/bugs/horned_hercules.png",
+      "icon": "bug"
+    },
+    {
+      "id": 66,
+      "slug": "walking_stick",
+      "nom": "Phasme",
+      "nomEN": "Walking Stick",
+      "lieu": "Sur les arbres",
+      "prixBase": 600,
+      "prixSpecial": 900,
+      "moisNord": [
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "heureDebut": 4,
+      "heureFin": 8,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 4,
+          "fin": 8
+        },
+        {
+          "debut": 17,
+          "fin": 19
+        }
+      ],
+      "image": "images/bugs/walking_stick.png",
+      "icon": "bug"
+    },
+    {
+      "id": 67,
+      "slug": "walking_leaf",
+      "nom": "Phyllie",
+      "nomEN": "Walking Leaf",
+      "lieu": "Sous les arbres",
+      "prixBase": 600,
+      "prixSpecial": 900,
+      "moisNord": [
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/walking_leaf.png",
+      "icon": "bug"
+    },
+    {
+      "id": 68,
+      "slug": "bagworm",
+      "nom": "Psyché",
+      "nomEN": "Bagworm",
+      "lieu": "En secouant les arbres",
+      "prixBase": 600,
+      "prixSpecial": 900,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/bagworm.png",
+      "icon": "bug"
+    },
+    {
+      "id": 69,
+      "slug": "ant",
+      "nom": "Fourmi",
+      "nomEN": "Ant",
+      "lieu": "Sur la nourriture pourrie",
+      "prixBase": 80,
+      "prixSpecial": 120,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/ant.png",
+      "icon": "bug"
+    },
+    {
+      "id": 70,
+      "slug": "hermit_crab",
+      "nom": "Bernard-l'ermite",
+      "nomEN": "Hermit Crab",
+      "lieu": "Sur la plage",
+      "prixBase": 1000,
+      "prixSpecial": 1500,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 19,
+      "heureFin": 8,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 19,
+          "fin": 8
+        }
+      ],
+      "image": "images/bugs/hermit_crab.png",
+      "icon": "bug"
+    },
+    {
+      "id": 71,
+      "slug": "wharf_roach",
+      "nom": "Ligie",
+      "nomEN": "Wharf Roach",
+      "lieu": "Sur les rochers de plage",
+      "prixBase": 200,
+      "prixSpecial": 300,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/wharf_roach.png",
+      "icon": "bug"
+    },
+    {
+      "id": 72,
+      "slug": "fly",
+      "nom": "Mouche",
+      "nomEN": "Fly",
+      "lieu": "Près des déchets",
+      "prixBase": 60,
+      "prixSpecial": 90,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/fly.png",
+      "icon": "bug"
+    },
+    {
+      "id": 73,
+      "slug": "mosquito",
+      "nom": "Moustique",
+      "nomEN": "Mosquito",
+      "lieu": "Voler près des fleurs",
+      "prixBase": 130,
+      "prixSpecial": 195,
+      "moisNord": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 17,
+      "heureFin": 4,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 17,
+          "fin": 4
+        }
+      ],
+      "image": "images/bugs/mosquito.png",
+      "icon": "bug"
+    },
+    {
+      "id": 74,
+      "slug": "flea",
+      "nom": "Puce",
+      "nomEN": "Flea",
+      "lieu": "Sur les villageois",
+      "prixBase": 70,
+      "prixSpecial": 105,
+      "moisNord": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/flea.png",
+      "icon": "bug"
+    },
+    {
+      "id": 75,
+      "slug": "snail",
+      "nom": "Escargot",
+      "nomEN": "Snail",
+      "lieu": "Sur les rochers et buissons (pluie)",
+      "prixBase": 250,
+      "prixSpecial": 375,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/bugs/snail.png",
+      "icon": "bug"
+    },
+    {
+      "id": 76,
+      "slug": "pill_bug",
+      "nom": "Cloporte",
+      "nomEN": "Pill Bug",
+      "lieu": "En tapant les rochers",
+      "prixBase": 250,
+      "prixSpecial": 375,
+      "moisNord": [
+        9,
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "moisSud": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 23,
+      "heureFin": 16,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 23,
+          "fin": 16
+        }
+      ],
+      "image": "images/bugs/pill_bug.png",
+      "icon": "bug"
+    },
+    {
+      "id": 77,
+      "slug": "centipede",
+      "nom": "Mille-pattes",
+      "nomEN": "Centipede",
+      "lieu": "En tapant les rochers",
+      "prixBase": 300,
+      "prixSpecial": 450,
+      "moisNord": [
+        9,
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "moisSud": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 16,
+      "heureFin": 23,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 23
+        }
+      ],
+      "image": "images/bugs/centipede.png",
+      "icon": "bug"
+    },
+    {
+      "id": 78,
+      "slug": "spider",
+      "nom": "Araignée",
+      "nomEN": "Spider",
+      "lieu": "En secouant les arbres",
+      "prixBase": 480,
+      "prixSpecial": 720,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 19,
+      "heureFin": 8,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 19,
+          "fin": 8
+        }
+      ],
+      "image": "images/bugs/spider.png",
+      "icon": "bug"
+    },
+    {
+      "id": 79,
+      "slug": "tarantula",
+      "nom": "Tarentule",
+      "nomEN": "Tarantula",
+      "lieu": "Au sol",
+      "prixBase": 8000,
+      "prixSpecial": 12000,
+      "moisNord": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "moisSud": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "heureDebut": 19,
+      "heureFin": 4,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 19,
+          "fin": 4
+        }
+      ],
+      "image": "images/bugs/tarantula.png",
+      "icon": "bug"
+    },
+    {
+      "id": 80,
+      "slug": "scorpion",
+      "nom": "Scorpion",
+      "nomEN": "Scorpion",
+      "lieu": "Au sol",
+      "prixBase": 8000,
+      "prixSpecial": 12000,
+      "moisNord": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "moisSud": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "heureDebut": 19,
+      "heureFin": 4,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 19,
+          "fin": 4
+        }
+      ],
+      "image": "images/bugs/scorpion.png",
+      "icon": "bug"
+    }
+  ],
+  "fish": [
+    {
+      "id": 1,
+      "slug": "bitterling",
+      "nom": "Bouvière",
+      "nomEN": "Bitterling",
+      "lieu": "Rivière",
+      "prixBase": 900,
+      "prixSpecial": 1350,
+      "moisNord": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "moisSud": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/bitterling.png",
+      "icon": "fish",
+      "ombre": "Très petite"
+    },
+    {
+      "id": 2,
+      "slug": "pale_chub",
+      "nom": "Chevaine",
+      "nomEN": "Pale Chub",
+      "lieu": "Rivière",
+      "prixBase": 200,
+      "prixSpecial": 300,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 9,
+      "heureFin": 16,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 9,
+          "fin": 16
+        }
+      ],
+      "image": "images/fish/pale_chub.png",
+      "icon": "fish",
+      "ombre": "Très petite"
+    },
+    {
+      "id": 3,
+      "slug": "crucian_carp",
+      "nom": "Carassin",
+      "nomEN": "Crucian Carp",
+      "lieu": "Rivière",
+      "prixBase": 160,
+      "prixSpecial": 240,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/crucian_carp.png",
+      "icon": "fish",
+      "ombre": "Petite"
+    },
+    {
+      "id": 4,
+      "slug": "dace",
+      "nom": "Vandoise",
+      "nomEN": "Dace",
+      "lieu": "Rivière",
+      "prixBase": 240,
+      "prixSpecial": 360,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/fish/dace.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 5,
+      "slug": "carp",
+      "nom": "Carpe",
+      "nomEN": "Carp",
+      "lieu": "Étang",
+      "prixBase": 300,
+      "prixSpecial": 450,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/carp.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 6,
+      "slug": "koi",
+      "nom": "Carpe koï",
+      "nomEN": "Koi",
+      "lieu": "Étang",
+      "prixBase": 4000,
+      "prixSpecial": 6000,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/fish/koi.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 7,
+      "slug": "goldfish",
+      "nom": "Poisson rouge",
+      "nomEN": "Goldfish",
+      "lieu": "Étang",
+      "prixBase": 1300,
+      "prixSpecial": 1950,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/goldfish.png",
+      "icon": "fish",
+      "ombre": "Très petite"
+    },
+    {
+      "id": 8,
+      "slug": "pop-eyed_goldfish",
+      "nom": "Cyprin doré",
+      "nomEN": "Pop-eyed Goldfish",
+      "lieu": "Étang",
+      "prixBase": 1300,
+      "prixSpecial": 1950,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 9,
+      "heureFin": 16,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 9,
+          "fin": 16
+        }
+      ],
+      "image": "images/fish/pop-eyed_goldfish.png",
+      "icon": "fish",
+      "ombre": "Très petite"
+    },
+    {
+      "id": 9,
+      "slug": "ranchu_goldfish",
+      "nom": "Ranchu",
+      "nomEN": "Ranchu Goldfish",
+      "lieu": "Étang",
+      "prixBase": 4500,
+      "prixSpecial": 6750,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 9,
+      "heureFin": 16,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 9,
+          "fin": 16
+        }
+      ],
+      "image": "images/fish/ranchu_goldfish.png",
+      "icon": "fish",
+      "ombre": "Petite"
+    },
+    {
+      "id": 10,
+      "slug": "killifish",
+      "nom": "Fondule barré",
+      "nomEN": "Killifish",
+      "lieu": "Étang",
+      "prixBase": 300,
+      "prixSpecial": 450,
+      "moisNord": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "moisSud": [
+        10,
+        11,
+        12,
+        1,
+        2
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/killifish.png",
+      "icon": "fish",
+      "ombre": "Très petite"
+    },
+    {
+      "id": 11,
+      "slug": "crawfish",
+      "nom": "Écrevisse",
+      "nomEN": "Crawfish",
+      "lieu": "Étang",
+      "prixBase": 200,
+      "prixSpecial": 300,
+      "moisNord": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/crawfish.png",
+      "icon": "fish",
+      "ombre": "Petite"
+    },
+    {
+      "id": 12,
+      "slug": "soft-shelled_turtle",
+      "nom": "Tortue trionyx",
+      "nomEN": "Soft-shelled Turtle",
+      "lieu": "Rivière",
+      "prixBase": 3750,
+      "prixSpecial": 5625,
+      "moisNord": [
+        8,
+        9
+      ],
+      "moisSud": [
+        2,
+        3
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/fish/soft-shelled_turtle.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 13,
+      "slug": "snapping_turtle",
+      "nom": "Tortue serpentine",
+      "nomEN": "Snapping Turtle",
+      "lieu": "Rivière",
+      "prixBase": 5000,
+      "prixSpecial": 7500,
+      "moisNord": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "moisSud": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "heureDebut": 21,
+      "heureFin": 4,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 21,
+          "fin": 4
+        }
+      ],
+      "image": "images/fish/snapping_turtle.png",
+      "icon": "fish",
+      "ombre": "Grande"
+    },
+    {
+      "id": 14,
+      "slug": "tadpole",
+      "nom": "Têtard",
+      "nomEN": "Tadpole",
+      "lieu": "Étang",
+      "prixBase": 100,
+      "prixSpecial": 150,
+      "moisNord": [
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "moisSud": [
+        9,
+        10,
+        11,
+        12,
+        1
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/tadpole.png",
+      "icon": "fish",
+      "ombre": "Très petite"
+    },
+    {
+      "id": 15,
+      "slug": "frog",
+      "nom": "Grenouille",
+      "nomEN": "Frog",
+      "lieu": "Étang",
+      "prixBase": 120,
+      "prixSpecial": 180,
+      "moisNord": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "moisSud": [
+        11,
+        12,
+        1,
+        2
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/frog.png",
+      "icon": "fish",
+      "ombre": "Petite"
+    },
+    {
+      "id": 16,
+      "slug": "freshwater_goby",
+      "nom": "Gobie d'eau douce",
+      "nomEN": "Freshwater Goby",
+      "lieu": "Rivière",
+      "prixBase": 400,
+      "prixSpecial": 600,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/fish/freshwater_goby.png",
+      "icon": "fish",
+      "ombre": "Petite"
+    },
+    {
+      "id": 17,
+      "slug": "loach",
+      "nom": "Loche d'étang",
+      "nomEN": "Loach",
+      "lieu": "Rivière",
+      "prixBase": 400,
+      "prixSpecial": 600,
+      "moisNord": [
+        3,
+        4,
+        5
+      ],
+      "moisSud": [
+        9,
+        10,
+        11
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/loach.png",
+      "icon": "fish",
+      "ombre": "Petite"
+    },
+    {
+      "id": 18,
+      "slug": "catfish",
+      "nom": "Silure",
+      "nomEN": "Catfish",
+      "lieu": "Étang",
+      "prixBase": 800,
+      "prixSpecial": 1200,
+      "moisNord": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "moisSud": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/fish/catfish.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 19,
+      "slug": "giant_snakehead",
+      "nom": "Tête-de-serpent",
+      "nomEN": "Giant Snakehead",
+      "lieu": "Étang",
+      "prixBase": 5500,
+      "prixSpecial": 8250,
+      "moisNord": [
+        6,
+        7,
+        8
+      ],
+      "moisSud": [
+        12,
+        1,
+        2
+      ],
+      "heureDebut": 9,
+      "heureFin": 16,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 9,
+          "fin": 16
+        }
+      ],
+      "image": "images/fish/giant_snakehead.png",
+      "icon": "fish",
+      "ombre": "Grande"
+    },
+    {
+      "id": 20,
+      "slug": "bluegill",
+      "nom": "Crapet",
+      "nomEN": "Bluegill",
+      "lieu": "Rivière",
+      "prixBase": 180,
+      "prixSpecial": 270,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 9,
+      "heureFin": 16,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 9,
+          "fin": 16
+        }
+      ],
+      "image": "images/fish/bluegill.png",
+      "icon": "fish",
+      "ombre": "Petite"
+    },
+    {
+      "id": 21,
+      "slug": "yellow_perch",
+      "nom": "Perche jaune",
+      "nomEN": "Yellow Perch",
+      "lieu": "Rivière",
+      "prixBase": 300,
+      "prixSpecial": 450,
+      "moisNord": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "moisSud": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/yellow_perch.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 22,
+      "slug": "black_bass",
+      "nom": "Bar",
+      "nomEN": "Black Bass",
+      "lieu": "Rivière",
+      "prixBase": 400,
+      "prixSpecial": 600,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/black_bass.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 23,
+      "slug": "tilapia",
+      "nom": "Tilapia",
+      "nomEN": "Tilapia",
+      "lieu": "Rivière",
+      "prixBase": 800,
+      "prixSpecial": 1200,
+      "moisNord": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "moisSud": [
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/tilapia.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 24,
+      "slug": "pike",
+      "nom": "Brochet",
+      "nomEN": "Pike",
+      "lieu": "Rivière",
+      "prixBase": 1800,
+      "prixSpecial": 2700,
+      "moisNord": [
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/pike.png",
+      "icon": "fish",
+      "ombre": "Grande"
+    },
+    {
+      "id": 25,
+      "slug": "pond_smelt",
+      "nom": "Éperlan",
+      "nomEN": "Pond Smelt",
+      "lieu": "Rivière",
+      "prixBase": 400,
+      "prixSpecial": 600,
+      "moisNord": [
+        12,
+        1,
+        2
+      ],
+      "moisSud": [
+        6,
+        7,
+        8
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/pond_smelt.png",
+      "icon": "fish",
+      "ombre": "Petite"
+    },
+    {
+      "id": 26,
+      "slug": "sweetfish",
+      "nom": "Ayu",
+      "nomEN": "Sweetfish",
+      "lieu": "Rivière",
+      "prixBase": 900,
+      "prixSpecial": 1350,
+      "moisNord": [
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/sweetfish.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 27,
+      "slug": "cherry_salmon",
+      "nom": "Saumon masou",
+      "nomEN": "Cherry Salmon",
+      "lieu": "Rivière en falaise",
+      "prixBase": 1000,
+      "prixSpecial": 1500,
+      "moisNord": [
+        3,
+        4,
+        5,
+        6,
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        3,
+        4,
+        5,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/fish/cherry_salmon.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 28,
+      "slug": "char",
+      "nom": "Omble",
+      "nomEN": "Char",
+      "lieu": "Rivière en falaise et étang",
+      "prixBase": 3800,
+      "prixSpecial": 5700,
+      "moisNord": [
+        3,
+        4,
+        5,
+        6,
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        3,
+        4,
+        5,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/fish/char.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 29,
+      "slug": "golden_trout",
+      "nom": "Truite dorée",
+      "nomEN": "Golden Trout",
+      "lieu": "Rivière en falaise",
+      "prixBase": 15000,
+      "prixSpecial": 22500,
+      "moisNord": [
+        3,
+        4,
+        5,
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        3,
+        4,
+        5,
+        9,
+        10,
+        11
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/fish/golden_trout.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 30,
+      "slug": "stringfish",
+      "nom": "Dai yu",
+      "nomEN": "Stringfish",
+      "lieu": "Rivière en falaise",
+      "prixBase": 15000,
+      "prixSpecial": 22500,
+      "moisNord": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "moisSud": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/fish/stringfish.png",
+      "icon": "fish",
+      "ombre": "Grande"
+    },
+    {
+      "id": 31,
+      "slug": "salmon",
+      "nom": "Saumon",
+      "nomEN": "Salmon",
+      "lieu": "Embouchure de rivière",
+      "prixBase": 700,
+      "prixSpecial": 1050,
+      "moisNord": [
+        9
+      ],
+      "moisSud": [
+        3
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/salmon.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 32,
+      "slug": "king_salmon",
+      "nom": "Saumon roi",
+      "nomEN": "King Salmon",
+      "lieu": "Embouchure de rivière",
+      "prixBase": 1800,
+      "prixSpecial": 2700,
+      "moisNord": [
+        9
+      ],
+      "moisSud": [
+        3
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/king_salmon.png",
+      "icon": "fish",
+      "ombre": "Très grande"
+    },
+    {
+      "id": 33,
+      "slug": "mitten_crab",
+      "nom": "Crabe chinois",
+      "nomEN": "Mitten Crab",
+      "lieu": "Rivière",
+      "prixBase": 2000,
+      "prixSpecial": 3000,
+      "moisNord": [
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        3,
+        4,
+        5
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/fish/mitten_crab.png",
+      "icon": "fish",
+      "ombre": "Petite"
+    },
+    {
+      "id": 34,
+      "slug": "guppy",
+      "nom": "Guppy",
+      "nomEN": "Guppy",
+      "lieu": "Rivière",
+      "prixBase": 1300,
+      "prixSpecial": 1950,
+      "moisNord": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "heureDebut": 9,
+      "heureFin": 16,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 9,
+          "fin": 16
+        }
+      ],
+      "image": "images/fish/guppy.png",
+      "icon": "fish",
+      "ombre": "Très petite"
+    },
+    {
+      "id": 35,
+      "slug": "nibble_fish",
+      "nom": "Poisson docteur",
+      "nomEN": "Nibble Fish",
+      "lieu": "Rivière",
+      "prixBase": 1500,
+      "prixSpecial": 2250,
+      "moisNord": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 9,
+      "heureFin": 16,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 9,
+          "fin": 16
+        }
+      ],
+      "image": "images/fish/nibble_fish.png",
+      "icon": "fish",
+      "ombre": "Très petite"
+    },
+    {
+      "id": 36,
+      "slug": "angelfish",
+      "nom": "Poisson-ange",
+      "nomEN": "Angelfish",
+      "lieu": "Rivière",
+      "prixBase": 3000,
+      "prixSpecial": 4500,
+      "moisNord": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "moisSud": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/fish/angelfish.png",
+      "icon": "fish",
+      "ombre": "Petite"
+    },
+    {
+      "id": 37,
+      "slug": "betta",
+      "nom": "Combattant",
+      "nomEN": "Betta",
+      "lieu": "Rivière",
+      "prixBase": 2500,
+      "prixSpecial": 3750,
+      "moisNord": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "moisSud": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "heureDebut": 9,
+      "heureFin": 16,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 9,
+          "fin": 16
+        }
+      ],
+      "image": "images/fish/betta.png",
+      "icon": "fish",
+      "ombre": "Petite"
+    },
+    {
+      "id": 38,
+      "slug": "neon_tetra",
+      "nom": "Néon bleu",
+      "nomEN": "Neon Tetra",
+      "lieu": "Rivière",
+      "prixBase": 500,
+      "prixSpecial": 750,
+      "moisNord": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "heureDebut": 9,
+      "heureFin": 16,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 9,
+          "fin": 16
+        }
+      ],
+      "image": "images/fish/neon_tetra.png",
+      "icon": "fish",
+      "ombre": "Très petite"
+    },
+    {
+      "id": 39,
+      "slug": "rainbowfish",
+      "nom": "Poisson arc-en-ciel",
+      "nomEN": "Rainbowfish",
+      "lieu": "Rivière",
+      "prixBase": 800,
+      "prixSpecial": 1200,
+      "moisNord": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "moisSud": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "heureDebut": 9,
+      "heureFin": 16,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 9,
+          "fin": 16
+        }
+      ],
+      "image": "images/fish/rainbowfish.png",
+      "icon": "fish",
+      "ombre": "Très petite"
+    },
+    {
+      "id": 40,
+      "slug": "piranha",
+      "nom": "Piranha",
+      "nomEN": "Piranha",
+      "lieu": "Rivière",
+      "prixBase": 2500,
+      "prixSpecial": 3750,
+      "moisNord": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 9,
+      "heureFin": 16,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 9,
+          "fin": 16
+        },
+        {
+          "debut": 21,
+          "fin": 4
+        }
+      ],
+      "image": "images/fish/piranha.png",
+      "icon": "fish",
+      "ombre": "Petite"
+    },
+    {
+      "id": 41,
+      "slug": "arowana",
+      "nom": "Arowana",
+      "nomEN": "Arowana",
+      "lieu": "Rivière",
+      "prixBase": 10000,
+      "prixSpecial": 15000,
+      "moisNord": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/fish/arowana.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 42,
+      "slug": "dorado",
+      "nom": "Dorado",
+      "nomEN": "Dorado",
+      "lieu": "Rivière",
+      "prixBase": 15000,
+      "prixSpecial": 22500,
+      "moisNord": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 4,
+      "heureFin": 21,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 4,
+          "fin": 21
+        }
+      ],
+      "image": "images/fish/dorado.png",
+      "icon": "fish",
+      "ombre": "Grande"
+    },
+    {
+      "id": 43,
+      "slug": "gar",
+      "nom": "Gar",
+      "nomEN": "Gar",
+      "lieu": "Étang",
+      "prixBase": 6000,
+      "prixSpecial": 9000,
+      "moisNord": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/fish/gar.png",
+      "icon": "fish",
+      "ombre": "Grande"
+    },
+    {
+      "id": 44,
+      "slug": "arapaima",
+      "nom": "Arapaïma",
+      "nomEN": "Arapaima",
+      "lieu": "Rivière",
+      "prixBase": 10000,
+      "prixSpecial": 15000,
+      "moisNord": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/fish/arapaima.png",
+      "icon": "fish",
+      "ombre": "Très grande"
+    },
+    {
+      "id": 45,
+      "slug": "saddled_bichir",
+      "nom": "Bichir",
+      "nomEN": "Saddled Bichir",
+      "lieu": "Rivière",
+      "prixBase": 4000,
+      "prixSpecial": 6000,
+      "moisNord": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 21,
+      "heureFin": 4,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 21,
+          "fin": 4
+        }
+      ],
+      "image": "images/fish/saddled_bichir.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 46,
+      "slug": "sturgeon",
+      "nom": "Esturgeon",
+      "nomEN": "Sturgeon",
+      "lieu": "Embouchure de rivière",
+      "prixBase": 10000,
+      "prixSpecial": 15000,
+      "moisNord": [
+        9,
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "moisSud": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/sturgeon.png",
+      "icon": "fish",
+      "ombre": "Très grande"
+    },
+    {
+      "id": 47,
+      "slug": "sea_butterfly",
+      "nom": "Clione",
+      "nomEN": "Sea Butterfly",
+      "lieu": "Mer",
+      "prixBase": 1000,
+      "prixSpecial": 1500,
+      "moisNord": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "moisSud": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/sea_butterfly.png",
+      "icon": "fish",
+      "ombre": "Très petite"
+    },
+    {
+      "id": 48,
+      "slug": "sea_horse",
+      "nom": "Hippocampe",
+      "nomEN": "Sea Horse",
+      "lieu": "Mer",
+      "prixBase": 1100,
+      "prixSpecial": 1650,
+      "moisNord": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/sea_horse.png",
+      "icon": "fish",
+      "ombre": "Très petite"
+    },
+    {
+      "id": 49,
+      "slug": "clownfish",
+      "nom": "Poisson-clown",
+      "nomEN": "Clown Fish",
+      "lieu": "Mer",
+      "prixBase": 650,
+      "prixSpecial": 975,
+      "moisNord": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/clownfish.png",
+      "icon": "fish",
+      "ombre": "Très petite"
+    },
+    {
+      "id": 50,
+      "slug": "surgeonfish",
+      "nom": "Poisson chirurgien",
+      "nomEN": "Surgeonfish",
+      "lieu": "Mer",
+      "prixBase": 1000,
+      "prixSpecial": 1500,
+      "moisNord": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/surgeonfish.png",
+      "icon": "fish",
+      "ombre": "Petite"
+    },
+    {
+      "id": 51,
+      "slug": "butterfly_fish",
+      "nom": "Poisson-papillon",
+      "nomEN": "Butterfly Fish",
+      "lieu": "Mer",
+      "prixBase": 1000,
+      "prixSpecial": 1500,
+      "moisNord": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/butterfly_fish.png",
+      "icon": "fish",
+      "ombre": "Petite"
+    },
+    {
+      "id": 52,
+      "slug": "napoleonfish",
+      "nom": "Napoléon",
+      "nomEN": "Napoleonfish",
+      "lieu": "Mer",
+      "prixBase": 10000,
+      "prixSpecial": 15000,
+      "moisNord": [
+        7,
+        8
+      ],
+      "moisSud": [
+        1,
+        2
+      ],
+      "heureDebut": 4,
+      "heureFin": 21,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 4,
+          "fin": 21
+        }
+      ],
+      "image": "images/fish/napoleonfish.png",
+      "icon": "fish",
+      "ombre": "Très grande"
+    },
+    {
+      "id": 53,
+      "slug": "zebra_turkeyfish",
+      "nom": "Poisson-scorpion",
+      "nomEN": "Zebra Turkeyfish",
+      "lieu": "Mer",
+      "prixBase": 500,
+      "prixSpecial": 750,
+      "moisNord": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/zebra_turkeyfish.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 54,
+      "slug": "blowfish",
+      "nom": "Poisson-ballon",
+      "nomEN": "Blowfish",
+      "lieu": "Mer",
+      "prixBase": 5000,
+      "prixSpecial": 7500,
+      "moisNord": [
+        11,
+        12,
+        1,
+        2
+      ],
+      "moisSud": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "heureDebut": 21,
+      "heureFin": 4,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 21,
+          "fin": 4
+        }
+      ],
+      "image": "images/fish/blowfish.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 55,
+      "slug": "puffer_fish",
+      "nom": "Poisson-porc-épic",
+      "nomEN": "Puffer Fish",
+      "lieu": "Mer",
+      "prixBase": 250,
+      "prixSpecial": 375,
+      "moisNord": [
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/puffer_fish.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 56,
+      "slug": "anchovy",
+      "nom": "Anchois",
+      "nomEN": "Anchovy",
+      "lieu": "Mer",
+      "prixBase": 200,
+      "prixSpecial": 300,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 4,
+      "heureFin": 21,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 4,
+          "fin": 21
+        }
+      ],
+      "image": "images/fish/anchovy.png",
+      "icon": "fish",
+      "ombre": "Petite"
+    },
+    {
+      "id": 57,
+      "slug": "horse_mackerel",
+      "nom": "Chinchard",
+      "nomEN": "Horse Mackerel",
+      "lieu": "Mer",
+      "prixBase": 150,
+      "prixSpecial": 225,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/horse_mackerel.png",
+      "icon": "fish",
+      "ombre": "Petite"
+    },
+    {
+      "id": 58,
+      "slug": "barred_knifejaw",
+      "nom": "Scarus",
+      "nomEN": "Barred Knifejaw",
+      "lieu": "Mer",
+      "prixBase": 5000,
+      "prixSpecial": 7500,
+      "moisNord": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        9,
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/barred_knifejaw.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 59,
+      "slug": "sea_bass",
+      "nom": "Bar commun",
+      "nomEN": "Sea Bass",
+      "lieu": "Mer",
+      "prixBase": 400,
+      "prixSpecial": 600,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/sea_bass.png",
+      "icon": "fish",
+      "ombre": "Grande"
+    },
+    {
+      "id": 60,
+      "slug": "red_snapper",
+      "nom": "Vivaneau",
+      "nomEN": "Red Snapper",
+      "lieu": "Mer",
+      "prixBase": 3000,
+      "prixSpecial": 4500,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/red_snapper.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 61,
+      "slug": "dab",
+      "nom": "Limande",
+      "nomEN": "Dab",
+      "lieu": "Mer",
+      "prixBase": 300,
+      "prixSpecial": 450,
+      "moisNord": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "moisSud": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/dab.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 62,
+      "slug": "olive_flounder",
+      "nom": "Cardeau",
+      "nomEN": "Olive Flounder",
+      "lieu": "Mer",
+      "prixBase": 800,
+      "prixSpecial": 1200,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/olive_flounder.png",
+      "icon": "fish",
+      "ombre": "Grande"
+    },
+    {
+      "id": 63,
+      "slug": "squid",
+      "nom": "Calmar",
+      "nomEN": "Squid",
+      "lieu": "Mer",
+      "prixBase": 500,
+      "prixSpecial": 750,
+      "moisNord": [
+        12,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "moisSud": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        1,
+        2
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/squid.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 64,
+      "slug": "moray_eel",
+      "nom": "Murène",
+      "nomEN": "Moray Eel",
+      "lieu": "Mer",
+      "prixBase": 2000,
+      "prixSpecial": 3000,
+      "moisNord": [
+        8,
+        9,
+        10
+      ],
+      "moisSud": [
+        2,
+        3,
+        4
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/moray_eel.png",
+      "icon": "fish",
+      "ombre": "Étroite"
+    },
+    {
+      "id": 65,
+      "slug": "ribbon_eel",
+      "nom": "Murène ruban bleue",
+      "nomEN": "Ribbon Eel",
+      "lieu": "Mer",
+      "prixBase": 600,
+      "prixSpecial": 900,
+      "moisNord": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "moisSud": [
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/ribbon_eel.png",
+      "icon": "fish",
+      "ombre": "Étroite"
+    },
+    {
+      "id": 66,
+      "slug": "tuna",
+      "nom": "Thon",
+      "nomEN": "Tuna",
+      "lieu": "Ponton",
+      "prixBase": 7000,
+      "prixSpecial": 10500,
+      "moisNord": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "moisSud": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/tuna.png",
+      "icon": "fish",
+      "ombre": "Très grande"
+    },
+    {
+      "id": 67,
+      "slug": "blue_marlin",
+      "nom": "Marlin bleu",
+      "nomEN": "Blue Marlin",
+      "lieu": "Ponton",
+      "prixBase": 10000,
+      "prixSpecial": 15000,
+      "moisNord": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/blue_marlin.png",
+      "icon": "fish",
+      "ombre": "Très grande"
+    },
+    {
+      "id": 68,
+      "slug": "giant_trevally",
+      "nom": "Carangue grosse tête",
+      "nomEN": "Giant Trevally",
+      "lieu": "Ponton",
+      "prixBase": 4500,
+      "prixSpecial": 6750,
+      "moisNord": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "moisSud": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/giant_trevally.png",
+      "icon": "fish",
+      "ombre": "Grande"
+    },
+    {
+      "id": 69,
+      "slug": "mahi-mahi",
+      "nom": "Coryphène",
+      "nomEN": "Mahi-mahi",
+      "lieu": "Ponton",
+      "prixBase": 6000,
+      "prixSpecial": 9000,
+      "moisNord": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "moisSud": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/mahi-mahi.png",
+      "icon": "fish",
+      "ombre": "Grande"
+    },
+    {
+      "id": 70,
+      "slug": "ocean_sunfish",
+      "nom": "Lune de mer",
+      "nomEN": "Ocean Sunfish",
+      "lieu": "Mer",
+      "prixBase": 4000,
+      "prixSpecial": 6000,
+      "moisNord": [
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 4,
+      "heureFin": 21,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 4,
+          "fin": 21
+        }
+      ],
+      "image": "images/fish/ocean_sunfish.png",
+      "icon": "fish",
+      "ombre": "Avec nageoire"
+    },
+    {
+      "id": 71,
+      "slug": "ray",
+      "nom": "Raie",
+      "nomEN": "Ray",
+      "lieu": "Mer",
+      "prixBase": 3000,
+      "prixSpecial": 4500,
+      "moisNord": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "heureDebut": 4,
+      "heureFin": 21,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 4,
+          "fin": 21
+        }
+      ],
+      "image": "images/fish/ray.png",
+      "icon": "fish",
+      "ombre": "Grande"
+    },
+    {
+      "id": 72,
+      "slug": "saw_shark",
+      "nom": "Requin scie",
+      "nomEN": "Saw Shark",
+      "lieu": "Mer",
+      "prixBase": 12000,
+      "prixSpecial": 18000,
+      "moisNord": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/fish/saw_shark.png",
+      "icon": "fish",
+      "ombre": "Avec nageoire"
+    },
+    {
+      "id": 73,
+      "slug": "hammerhead_shark",
+      "nom": "Requin marteau",
+      "nomEN": "Hammerhead Shark",
+      "lieu": "Mer",
+      "prixBase": 8000,
+      "prixSpecial": 12000,
+      "moisNord": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/fish/hammerhead_shark.png",
+      "icon": "fish",
+      "ombre": "Avec nageoire"
+    },
+    {
+      "id": 74,
+      "slug": "great_white_shark",
+      "nom": "Grand requin blanc",
+      "nomEN": "Great White Shark",
+      "lieu": "Mer",
+      "prixBase": 15000,
+      "prixSpecial": 22500,
+      "moisNord": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/fish/great_white_shark.png",
+      "icon": "fish",
+      "ombre": "Avec nageoire"
+    },
+    {
+      "id": 75,
+      "slug": "whale_shark",
+      "nom": "Requin-baleine",
+      "nomEN": "Whale Shark",
+      "lieu": "Mer",
+      "prixBase": 13000,
+      "prixSpecial": 19500,
+      "moisNord": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/whale_shark.png",
+      "icon": "fish",
+      "ombre": "Avec nageoire"
+    },
+    {
+      "id": 76,
+      "slug": "suckerfish",
+      "nom": "Rémora rayé",
+      "nomEN": "Suckerfish",
+      "lieu": "Mer",
+      "prixBase": 1500,
+      "prixSpecial": 2250,
+      "moisNord": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/suckerfish.png",
+      "icon": "fish",
+      "ombre": "Avec nageoire"
+    },
+    {
+      "id": 77,
+      "slug": "football_fish",
+      "nom": "Poisson lanterne",
+      "nomEN": "Football Fish",
+      "lieu": "Mer",
+      "prixBase": 2500,
+      "prixSpecial": 3750,
+      "moisNord": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "moisSud": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/fish/football_fish.png",
+      "icon": "fish",
+      "ombre": "Moyenne"
+    },
+    {
+      "id": 78,
+      "slug": "oarfish",
+      "nom": "Poisson-ruban",
+      "nomEN": "Oarfish",
+      "lieu": "Mer",
+      "prixBase": 9000,
+      "prixSpecial": 13500,
+      "moisNord": [
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "moisSud": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/oarfish.png",
+      "icon": "fish",
+      "ombre": "Très grande"
+    },
+    {
+      "id": 79,
+      "slug": "barreleye",
+      "nom": "Macropinna",
+      "nomEN": "Barreleye",
+      "lieu": "Mer",
+      "prixBase": 15000,
+      "prixSpecial": 22500,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 21,
+      "heureFin": 4,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 21,
+          "fin": 4
+        }
+      ],
+      "image": "images/fish/barreleye.png",
+      "icon": "fish",
+      "ombre": "Petite"
+    },
+    {
+      "id": 80,
+      "slug": "coelacanth",
+      "nom": "Cœlacanthe",
+      "nomEN": "Coelacanth",
+      "lieu": "Mer, pluie ou neige",
+      "prixBase": 15000,
+      "prixSpecial": 22500,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/fish/coelacanth.png",
+      "icon": "fish",
+      "ombre": "Très grande"
+    }
+  ],
+  "sea": [
+    {
+      "id": 1,
+      "slug": "seaweed",
+      "nom": "Wakame",
+      "nomEN": "Seaweed",
+      "lieu": "Mer",
+      "prixBase": 600,
+      "prixSpecial": null,
+      "moisNord": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "moisSud": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        1
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/seaweed.png",
+      "icon": "wave",
+      "vitesse": "Immobile"
+    },
+    {
+      "id": 2,
+      "slug": "sea_grapes",
+      "nom": "Algue raisin de mer",
+      "nomEN": "Sea Grapes",
+      "lieu": "Mer",
+      "prixBase": 900,
+      "prixSpecial": null,
+      "moisNord": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/sea_grapes.png",
+      "icon": "wave",
+      "vitesse": "Immobile"
+    },
+    {
+      "id": 3,
+      "slug": "sea_cucumber",
+      "nom": "Concombre de mer",
+      "nomEN": "Sea Cucumber",
+      "lieu": "Mer",
+      "prixBase": 500,
+      "prixSpecial": null,
+      "moisNord": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "moisSud": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/sea_cucumber.png",
+      "icon": "wave",
+      "vitesse": "Très lente"
+    },
+    {
+      "id": 4,
+      "slug": "sea_pig",
+      "nom": "Cochon de mer",
+      "nomEN": "Sea Pig",
+      "lieu": "Mer",
+      "prixBase": 10000,
+      "prixSpecial": null,
+      "moisNord": [
+        11,
+        12,
+        1,
+        2
+      ],
+      "moisSud": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/sea/sea_pig.png",
+      "icon": "wave",
+      "vitesse": "Très rapide"
+    },
+    {
+      "id": 5,
+      "slug": "sea_star",
+      "nom": "Étoile de mer",
+      "nomEN": "Sea Star",
+      "lieu": "Mer",
+      "prixBase": 500,
+      "prixSpecial": null,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/sea_star.png",
+      "icon": "wave",
+      "vitesse": "Très lente"
+    },
+    {
+      "id": 6,
+      "slug": "sea_urchin",
+      "nom": "Oursin",
+      "nomEN": "Sea Urchin",
+      "lieu": "Mer",
+      "prixBase": 1700,
+      "prixSpecial": null,
+      "moisNord": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/sea_urchin.png",
+      "icon": "wave",
+      "vitesse": "Lente"
+    },
+    {
+      "id": 7,
+      "slug": "slate_pencil_urchin",
+      "nom": "Oursin crayon",
+      "nomEN": "Slate Pencil Urchin",
+      "lieu": "Mer",
+      "prixBase": 2000,
+      "prixSpecial": null,
+      "moisNord": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/sea/slate_pencil_urchin.png",
+      "icon": "wave",
+      "vitesse": "Moyenne"
+    },
+    {
+      "id": 8,
+      "slug": "sea_anemone",
+      "nom": "Anémone de mer",
+      "nomEN": "Sea Anemone",
+      "lieu": "Mer",
+      "prixBase": 500,
+      "prixSpecial": null,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/sea_anemone.png",
+      "icon": "wave",
+      "vitesse": "Immobile"
+    },
+    {
+      "id": 9,
+      "slug": "moon_jellyfish",
+      "nom": "Méduse lune",
+      "nomEN": "Moon Jellyfish",
+      "lieu": "Mer",
+      "prixBase": 600,
+      "prixSpecial": null,
+      "moisNord": [
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/moon_jellyfish.png",
+      "icon": "wave",
+      "vitesse": "Très lente"
+    },
+    {
+      "id": 10,
+      "slug": "sea_slug",
+      "nom": "Limace de mer",
+      "nomEN": "Sea Slug",
+      "lieu": "Mer",
+      "prixBase": 600,
+      "prixSpecial": null,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/sea_slug.png",
+      "icon": "wave",
+      "vitesse": "Très lente"
+    },
+    {
+      "id": 11,
+      "slug": "pearl_oyster",
+      "nom": "Huître perlière",
+      "nomEN": "Pearl Oyster",
+      "lieu": "Mer",
+      "prixBase": 2800,
+      "prixSpecial": null,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/pearl_oyster.png",
+      "icon": "wave",
+      "vitesse": "Moyenne"
+    },
+    {
+      "id": 12,
+      "slug": "mussel",
+      "nom": "Moule",
+      "nomEN": "Mussel",
+      "lieu": "Mer",
+      "prixBase": 1500,
+      "prixSpecial": null,
+      "moisNord": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        12,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/mussel.png",
+      "icon": "wave",
+      "vitesse": "Lente"
+    },
+    {
+      "id": 13,
+      "slug": "oyster",
+      "nom": "Huître",
+      "nomEN": "Oyster",
+      "lieu": "Mer",
+      "prixBase": 1100,
+      "prixSpecial": null,
+      "moisNord": [
+        9,
+        10,
+        11,
+        12,
+        1,
+        2
+      ],
+      "moisSud": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/oyster.png",
+      "icon": "wave",
+      "vitesse": "Lente"
+    },
+    {
+      "id": 14,
+      "slug": "scallop",
+      "nom": "Pétoncle",
+      "nomEN": "Scallop",
+      "lieu": "Mer",
+      "prixBase": 1200,
+      "prixSpecial": null,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/scallop.png",
+      "icon": "wave",
+      "vitesse": "Lente"
+    },
+    {
+      "id": 15,
+      "slug": "whelk",
+      "nom": "Bulot",
+      "nomEN": "Whelk",
+      "lieu": "Mer",
+      "prixBase": 1000,
+      "prixSpecial": null,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/whelk.png",
+      "icon": "wave",
+      "vitesse": "Lente"
+    },
+    {
+      "id": 16,
+      "slug": "turban_shell",
+      "nom": "Turbo",
+      "nomEN": "Turban Shell",
+      "lieu": "Mer",
+      "prixBase": 1000,
+      "prixSpecial": null,
+      "moisNord": [
+        3,
+        4,
+        5,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        3,
+        4,
+        5,
+        6,
+        9,
+        10,
+        11
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/turban_shell.png",
+      "icon": "wave",
+      "vitesse": "Lente"
+    },
+    {
+      "id": 17,
+      "slug": "abalone",
+      "nom": "Ormeau",
+      "nomEN": "Abalone",
+      "lieu": "Mer",
+      "prixBase": 2000,
+      "prixSpecial": null,
+      "moisNord": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        1
+      ],
+      "moisSud": [
+        12,
+        1,
+        2,
+        7,
+        4,
+        5,
+        6,
+        7
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/sea/abalone.png",
+      "icon": "wave",
+      "vitesse": "Moyenne"
+    },
+    {
+      "id": 18,
+      "slug": "gigas_giant_clam",
+      "nom": "Bénitier colossal",
+      "nomEN": "Gigas Giant Clam",
+      "lieu": "Mer",
+      "prixBase": 15000,
+      "prixSpecial": null,
+      "moisNord": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/gigas_giant_clam.png",
+      "icon": "wave",
+      "vitesse": "Très rapide"
+    },
+    {
+      "id": 19,
+      "slug": "chambered_nautilus",
+      "nom": "Nautile",
+      "nomEN": "Chambered Nautilus",
+      "lieu": "Mer",
+      "prixBase": 1800,
+      "prixSpecial": null,
+      "moisNord": [
+        3,
+        4,
+        5,
+        6,
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        3,
+        4,
+        5,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/sea/chambered_nautilus.png",
+      "icon": "wave",
+      "vitesse": "Moyenne"
+    },
+    {
+      "id": 20,
+      "slug": "octopus",
+      "nom": "Poulpe",
+      "nomEN": "Octopus",
+      "lieu": "Mer",
+      "prixBase": 1200,
+      "prixSpecial": null,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/octopus.png",
+      "icon": "wave",
+      "vitesse": "Lente"
+    },
+    {
+      "id": 21,
+      "slug": "umbrella_octopus",
+      "nom": "Pieuvre parapluie",
+      "nomEN": "Umbrella Octopus",
+      "lieu": "Mer",
+      "prixBase": 6000,
+      "prixSpecial": null,
+      "moisNord": [
+        3,
+        4,
+        5,
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        3,
+        4,
+        5,
+        9,
+        10,
+        11
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/umbrella_octopus.png",
+      "icon": "wave",
+      "vitesse": "Rapide"
+    },
+    {
+      "id": 22,
+      "slug": "vampire_squid",
+      "nom": "Vampire des abysses",
+      "nomEN": "Vampire Squid",
+      "lieu": "Mer",
+      "prixBase": 10000,
+      "prixSpecial": null,
+      "moisNord": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "moisSud": [
+        11,
+        12,
+        1,
+        2
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/sea/vampire_squid.png",
+      "icon": "wave",
+      "vitesse": "Très rapide"
+    },
+    {
+      "id": 23,
+      "slug": "firefly_squid",
+      "nom": "Calmar luciole",
+      "nomEN": "Firefly Squid",
+      "lieu": "Mer",
+      "prixBase": 1400,
+      "prixSpecial": null,
+      "moisNord": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "moisSud": [
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 21,
+      "heureFin": 4,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 21,
+          "fin": 4
+        }
+      ],
+      "image": "images/sea/firefly_squid.png",
+      "icon": "wave",
+      "vitesse": "Lente"
+    },
+    {
+      "id": 24,
+      "slug": "gazami_crab",
+      "nom": "Crabe gazami",
+      "nomEN": "Gazami Crab",
+      "lieu": "Mer",
+      "prixBase": 2200,
+      "prixSpecial": null,
+      "moisNord": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "moisSud": [
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/gazami_crab.png",
+      "icon": "wave",
+      "vitesse": "Moyenne"
+    },
+    {
+      "id": 25,
+      "slug": "dungeness_crab",
+      "nom": "Crabe de Dungeness",
+      "nomEN": "Dungeness Crab",
+      "lieu": "Mer",
+      "prixBase": 1900,
+      "prixSpecial": null,
+      "moisNord": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "moisSud": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/dungeness_crab.png",
+      "icon": "wave",
+      "vitesse": "Moyenne"
+    },
+    {
+      "id": 26,
+      "slug": "snow_crab",
+      "nom": "Crabe des neiges",
+      "nomEN": "Snow Crab",
+      "lieu": "Mer",
+      "prixBase": 6000,
+      "prixSpecial": null,
+      "moisNord": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "moisSud": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/snow_crab.png",
+      "icon": "wave",
+      "vitesse": "Rapide"
+    },
+    {
+      "id": 27,
+      "slug": "red_king_crab",
+      "nom": "Crabe royal",
+      "nomEN": "Red King Crab",
+      "lieu": "Mer",
+      "prixBase": 8000,
+      "prixSpecial": null,
+      "moisNord": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "moisSud": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/red_king_crab.png",
+      "icon": "wave",
+      "vitesse": "Très rapide"
+    },
+    {
+      "id": 28,
+      "slug": "acorn_barnacle",
+      "nom": "Balane",
+      "nomEN": "Acorn Barnacle",
+      "lieu": "Mer",
+      "prixBase": 600,
+      "prixSpecial": null,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/acorn_barnacle.png",
+      "icon": "wave",
+      "vitesse": "Immobile"
+    },
+    {
+      "id": 29,
+      "slug": "spider_crab",
+      "nom": "Crabe-araignée géant",
+      "nomEN": "Spider Crab",
+      "lieu": "Mer",
+      "prixBase": 12000,
+      "prixSpecial": null,
+      "moisNord": [
+        3,
+        4
+      ],
+      "moisSud": [
+        9,
+        10
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/spider_crab.png",
+      "icon": "wave",
+      "vitesse": "Très rapide"
+    },
+    {
+      "id": 30,
+      "slug": "tiger_prawn",
+      "nom": "Crevette tigrée",
+      "nomEN": "Tiger Prawn",
+      "lieu": "Mer",
+      "prixBase": 3000,
+      "prixSpecial": null,
+      "moisNord": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/sea/tiger_prawn.png",
+      "icon": "wave",
+      "vitesse": "Moyenne"
+    },
+    {
+      "id": 31,
+      "slug": "sweet_shrimp",
+      "nom": "Crevette nordique",
+      "nomEN": "Sweet Shrimp",
+      "lieu": "Mer",
+      "prixBase": 1400,
+      "prixSpecial": null,
+      "moisNord": [
+        9,
+        10,
+        11,
+        12,
+        1,
+        2
+      ],
+      "moisSud": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/sea/sweet_shrimp.png",
+      "icon": "wave",
+      "vitesse": "Lente"
+    },
+    {
+      "id": 32,
+      "slug": "mantis_shrimp",
+      "nom": "Crevette-mante",
+      "nomEN": "Mantis Shrimp",
+      "lieu": "Mer",
+      "prixBase": 2500,
+      "prixSpecial": null,
+      "moisNord": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/sea/mantis_shrimp.png",
+      "icon": "wave",
+      "vitesse": "Moyenne"
+    },
+    {
+      "id": 33,
+      "slug": "spiny_lobster",
+      "nom": "Langouste",
+      "nomEN": "Spiny Lobster",
+      "lieu": "Mer",
+      "prixBase": 5000,
+      "prixSpecial": null,
+      "moisNord": [
+        10,
+        11,
+        12
+      ],
+      "moisSud": [
+        4,
+        5,
+        6
+      ],
+      "heureDebut": 21,
+      "heureFin": 4,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 21,
+          "fin": 4
+        }
+      ],
+      "image": "images/sea/spiny_lobster.png",
+      "icon": "wave",
+      "vitesse": "Rapide"
+    },
+    {
+      "id": 34,
+      "slug": "lobster",
+      "nom": "Homard",
+      "nomEN": "Lobster",
+      "lieu": "Mer",
+      "prixBase": 4500,
+      "prixSpecial": null,
+      "moisNord": [
+        12,
+        1,
+        4,
+        5,
+        6
+      ],
+      "moisSud": [
+        6,
+        7,
+        10,
+        11,
+        12
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/lobster.png",
+      "icon": "wave",
+      "vitesse": "Rapide"
+    },
+    {
+      "id": 35,
+      "slug": "giant_isopod",
+      "nom": "Bathynome géant",
+      "nomEN": "Giant Isopod",
+      "lieu": "Mer",
+      "prixBase": 12000,
+      "prixSpecial": null,
+      "moisNord": [
+        7,
+        8,
+        9,
+        10
+      ],
+      "moisSud": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "heureDebut": 9,
+      "heureFin": 16,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 9,
+          "fin": 16
+        },
+        {
+          "debut": 21,
+          "fin": 4
+        }
+      ],
+      "image": "images/sea/giant_isopod.png",
+      "icon": "wave",
+      "vitesse": "Très rapide"
+    },
+    {
+      "id": 36,
+      "slug": "horseshoe_crab",
+      "nom": "Limule",
+      "nomEN": "Horseshoe Crab",
+      "lieu": "Mer",
+      "prixBase": 2500,
+      "prixSpecial": null,
+      "moisNord": [
+        7,
+        8,
+        9
+      ],
+      "moisSud": [
+        1,
+        2,
+        3
+      ],
+      "heureDebut": 21,
+      "heureFin": 4,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 21,
+          "fin": 4
+        }
+      ],
+      "image": "images/sea/horseshoe_crab.png",
+      "icon": "wave",
+      "vitesse": "Moyenne"
+    },
+    {
+      "id": 37,
+      "slug": "sea_pineapple",
+      "nom": "Halocynthia roretzi",
+      "nomEN": "Sea Pineapple",
+      "lieu": "Mer",
+      "prixBase": 1500,
+      "prixSpecial": null,
+      "moisNord": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "moisSud": [
+        10,
+        11,
+        12,
+        1,
+        2
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/sea_pineapple.png",
+      "icon": "wave",
+      "vitesse": "Lente"
+    },
+    {
+      "id": 38,
+      "slug": "spotted_garden_eel",
+      "nom": "Anguille de jardin",
+      "nomEN": "Spotted Garden Eel",
+      "lieu": "Mer",
+      "prixBase": 1100,
+      "prixSpecial": null,
+      "moisNord": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "moisSud": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "heureDebut": 4,
+      "heureFin": 21,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 4,
+          "fin": 21
+        }
+      ],
+      "image": "images/sea/spotted_garden_eel.png",
+      "icon": "wave",
+      "vitesse": "Lente"
+    },
+    {
+      "id": 39,
+      "slug": "flatworm",
+      "nom": "Ver plat",
+      "nomEN": "Flatworm",
+      "lieu": "Mer",
+      "prixBase": 700,
+      "prixSpecial": null,
+      "moisNord": [
+        8,
+        9
+      ],
+      "moisSud": [
+        2,
+        3
+      ],
+      "heureDebut": 16,
+      "heureFin": 9,
+      "touteLaJournee": false,
+      "heures": [
+        {
+          "debut": 16,
+          "fin": 9
+        }
+      ],
+      "image": "images/sea/flatworm.png",
+      "icon": "wave",
+      "vitesse": "Très lente"
+    },
+    {
+      "id": 40,
+      "slug": "venus_flower_basket",
+      "nom": "Corbeille de Vénus",
+      "nomEN": "Venus' Flower Basket",
+      "lieu": "Mer",
+      "prixBase": 5000,
+      "prixSpecial": null,
+      "moisNord": [
+        10,
+        11,
+        12,
+        1,
+        2
+      ],
+      "moisSud": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "heureDebut": 0,
+      "heureFin": 24,
+      "touteLaJournee": true,
+      "heures": [
+        {
+          "debut": 0,
+          "fin": 24
+        }
+      ],
+      "image": "images/sea/venus_flower_basket.png",
+      "icon": "wave",
+      "vitesse": "Rapide"
+    }
+  ]
+};
+
+    /* ==============================
+       État et constantes
+       ============================== */
+    const MONTH_NAMES = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'];
+    const TYPE_LABELS = { bugs: 'Insectes', fish: 'Poissons', sea: 'Créatures marines' };
+    const TYPE_ICON = { bugs: 'i-bug', fish: 'i-fish', sea: 'i-wave' };
+    const STORAGE_HEMISPHERE = 'acnh_hemisphere';
+    const CURRENT_MONTH = new Date().getMonth() + 1;
+
+    const state = {
+      activeType: 'bugs',
+      hemisphere: readStorage(STORAGE_HEMISPHERE) || 'nord'
+    };
+
+    const dom = {
+      grid: document.getElementById('critterGrid'),
+      globalCounter: document.getElementById('globalCounter'),
+      progressPercent: document.getElementById('progressPercent'),
+      progressFill: document.getElementById('progressFill'),
+      missingTotal: document.getElementById('missingTotal'),
+      availableTotal: document.getElementById('availableTotal'),
+      visibleTotal: document.getElementById('visibleTotal'),
+      activeHemiLabel: document.getElementById('activeHemiLabel'),
+      monthLabel: document.getElementById('monthLabel'),
+      sectionTitle: document.getElementById('sectionTitle'),
+      listMeta: document.getElementById('listMeta'),
+      timelineStart: document.getElementById('timelineStart'),
+      timelineEnd: document.getElementById('timelineEnd'),
+      timelineRangeLabel: document.getElementById('timelineRangeLabel'),
+      timelineSummary: document.getElementById('timelineSummary'),
+      timelineMonths: document.getElementById('timelineMonths'),
+      timelineResults: document.getElementById('timelineResults'),
+      searchInput: document.getElementById('searchInput'),
+      availableOnly: document.getElementById('availableOnly'),
+      missingOnly: document.getElementById('missingOnly'),
+      resetButton: document.getElementById('resetButton'),
+      tabs: Array.from(document.querySelectorAll('.tab-button')),
+      hemisphereInputs: Array.from(document.querySelectorAll('input[name="hemisphere"]'))
+    };
+
+    /* ==============================
+       Stockage local
+       ============================== */
+    function readStorage(key) {
+      try { return localStorage.getItem(key); } catch (error) { return null; }
+    }
+
+    function writeStorage(key, value) {
+      try { localStorage.setItem(key, value); } catch (error) { return false; }
+      return true;
+    }
+
+    function removeStorage(key) {
+      try { localStorage.removeItem(key); } catch (error) { return false; }
+      return true;
+    }
+
+    function caughtKey(type, id) { return 'acnh_caught_' + type + '_' + id; }
+    function isCaught(type, id) { return readStorage(caughtKey(type, id)) === 'true'; }
+    function setCaught(type, id, value) { value ? writeStorage(caughtKey(type, id), 'true') : removeStorage(caughtKey(type, id)); }
+
+    /* ==============================
+       Formatage
+       ============================== */
+    function escapeHTML(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function normalizeSearch(value) {
+      return String(value || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+    }
+
+    function formatPrice(value) {
+      return new Intl.NumberFormat('fr-FR').format(value) + ' cloche' + (value > 1 ? 's' : '');
+    }
+
+    function formatHour(hour) { return hour === 24 ? '24h' : hour + 'h'; }
+
+    function formatHours(item) {
+      if (item.touteLaJournee) return 'Toute la journée';
+      return item.heures.map((range) => formatHour(range.debut) + ' → ' + formatHour(range.fin)).join(', ');
+    }
+
+    function formatMonths(months) {
+      const ordered = Array.from(new Set(months)).sort((a, b) => a - b);
+      if (ordered.length === 12) return "Toute l'année";
+      if (!ordered.length) return 'Indisponible';
+      const ranges = [];
+      let start = ordered[0];
+      let previous = ordered[0];
+      for (let i = 1; i < ordered.length; i += 1) {
+        const month = ordered[i];
+        if (month === previous + 1) previous = month;
+        else { ranges.push([start, previous]); start = month; previous = month; }
+      }
+      ranges.push([start, previous]);
+      return ranges.map(([first, last]) => first === last ? MONTH_NAMES[first - 1] : MONTH_NAMES[first - 1] + ' → ' + MONTH_NAMES[last - 1]).join(', ');
+    }
+
+    function getMonths(item) { return state.hemisphere === 'sud' ? item.moisSud : item.moisNord; }
+    function isAvailableNow(item) { return getMonths(item).includes(CURRENT_MONTH); }
+
+    function icon(id, size = 19) {
+      return '<svg width="' + size + '" height="' + size + '" aria-hidden="true"><use href="#' + id + '"></use></svg>';
+    }
+
+    function toMonthValue(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      return year + '-' + month;
+    }
+
+    function parseMonthInput(value) {
+      const parts = String(value || '').split('-').map(Number);
+      if (parts.length !== 2 || parts.some(Number.isNaN)) {
+        const today = new Date();
+        return { year: today.getFullYear(), month: today.getMonth() + 1 };
+      }
+      return { year: parts[0], month: Math.min(12, Math.max(1, parts[1])) };
+    }
+
+    function addMonths(date, months) {
+      const copy = new Date(date);
+      copy.setMonth(copy.getMonth() + months);
+      return copy;
+    }
+
+    function monthIndex(monthInfo) {
+      return monthInfo.year * 12 + monthInfo.month;
+    }
+
+    function formatMonthFR(monthInfo) {
+      return MONTH_NAMES[monthInfo.month - 1] + ' ' + monthInfo.year;
+    }
+
+    function initTimelineDates() {
+      const today = new Date();
+      dom.timelineStart.value = toMonthValue(today);
+      dom.timelineEnd.value = toMonthValue(addMonths(today, 1));
+    }
+
+    function timelineMonthRange() {
+      let start = parseMonthInput(dom.timelineStart.value);
+      let end = parseMonthInput(dom.timelineEnd.value);
+      if (monthIndex(start) > monthIndex(end)) [start, end] = [end, start];
+      return { start, end };
+    }
+
+    function timelineMonthsInRange() {
+      const { start, end } = timelineMonthRange();
+      const months = [];
+      const cursor = new Date(start.year, start.month - 1, 1);
+      const final = new Date(end.year, end.month - 1, 1);
+
+      while (cursor <= final && months.length < 24) {
+        months.push({
+          key: cursor.getFullYear() + '-' + String(cursor.getMonth() + 1).padStart(2, '0'),
+          year: cursor.getFullYear(),
+          month: cursor.getMonth() + 1,
+          label: MONTH_NAMES[cursor.getMonth()] + ' ' + cursor.getFullYear()
+        });
+        cursor.setMonth(cursor.getMonth() + 1);
+      }
+
+      return months;
+    }
+
+    /* ==============================
+       Calculs de collection
+       ============================== */
+    function allItems() { return Object.entries(CRITTERS).flatMap(([type, items]) => items.map((item) => ({ type, item }))); }
+    function totalCount() { return allItems().length; }
+    function caughtCount(type) { return CRITTERS[type].filter((item) => isCaught(type, item.id)).length; }
+    function missingCount(type) { return CRITTERS[type].length - caughtCount(type); }
+    function currentAvailableCount(type) { return CRITTERS[type].filter(isAvailableNow).length; }
+
+    function updateCounters(visibleCount) {
+      const total = totalCount();
+      const caught = Object.keys(CRITTERS).reduce((sum, type) => sum + caughtCount(type), 0);
+      const missing = total - caught;
+      const progress = total ? Math.round((caught / total) * 100) : 0;
+      const available = CRITTERS[state.activeType].filter(isAvailableNow).length;
+
+      dom.globalCounter.textContent = caught + ' / ' + total + ' capturées';
+      dom.progressPercent.textContent = progress + '%';
+      dom.progressFill.style.width = progress + '%';
+      dom.missingTotal.textContent = missing;
+      dom.availableTotal.textContent = available;
+      dom.visibleTotal.textContent = visibleCount;
+      dom.activeHemiLabel.textContent = state.hemisphere === 'sud' ? 'Sud' : 'Nord';
+      dom.monthLabel.textContent = MONTH_NAMES[CURRENT_MONTH - 1] + ' · Hémisphère ' + (state.hemisphere === 'sud' ? 'Sud' : 'Nord');
+
+      setTab('Bugs', 'bugs');
+      setTab('Fish', 'fish');
+      setTab('Sea', 'sea');
+    }
+
+    function setTab(suffix, type) {
+      document.getElementById('tabCount' + suffix).textContent = caughtCount(type) + ' / ' + CRITTERS[type].length;
+      document.getElementById('tabMeta' + suffix).textContent = missingCount(type) + ' manquante' + (missingCount(type) > 1 ? 's' : '') + ' · ' + currentAvailableCount(type) + ' ce mois-ci';
+    }
+
+    /* ==============================
+       Rendu de la grille
+       ============================== */
+    function extraDetail(item) {
+      if (state.activeType === 'fish') return '<li>' + icon('i-eye') + '<span>Ombre : ' + escapeHTML(item.ombre) + '</span></li>';
+      if (state.activeType === 'sea') return '<li>' + icon('i-speed') + '<span>Vitesse : ' + escapeHTML(item.vitesse) + '</span></li>';
+      return '';
+    }
+
+    function specialPriceLabel(item, type = state.activeType) {
+      if (!item.prixSpecial) return '';
+      const label = type === 'bugs' ? 'Jean-Pierre' : 'Pollux';
+      return '<small>' + label + ' : ' + formatPrice(item.prixSpecial) + '</small>';
+    }
+
+    function timelineMatches(item, months) {
+      const availableMonths = getMonths(item);
+      return months.filter((monthInfo) => availableMonths.includes(monthInfo.month));
+    }
+
+    function timelineCritters() {
+      const months = timelineMonthsInRange();
+      const typeOrder = { bugs: 0, fish: 1, sea: 2 };
+
+      return allItems()
+        .map(({ type, item }) => ({ type, item, activeMonths: timelineMatches(item, months) }))
+        .filter(({ type, item, activeMonths }) => !isCaught(type, item.id) && activeMonths.length > 0)
+        .sort((a, b) => {
+          const firstA = months.findIndex((monthInfo) => a.activeMonths.some((active) => active.key === monthInfo.key));
+          const firstB = months.findIndex((monthInfo) => b.activeMonths.some((active) => active.key === monthInfo.key));
+          return firstA - firstB || typeOrder[a.type] - typeOrder[b.type] || a.item.id - b.item.id;
+        });
+    }
+
+    function renderTimelineCard(entry) {
+      const monthsText = entry.activeMonths.map((monthInfo) => monthInfo.label).join(', ');
+      const detailText = entry.item.lieu + ' · ' + formatHours(entry.item);
+
+      return '<article class="timeline-card">' +
+        '<img src="' + escapeHTML(entry.item.image) + '" alt="' + escapeHTML(entry.item.nom) + '" loading="lazy" width="72" height="72">' +
+        '<div class="timeline-card-body">' +
+          '<div class="timeline-card-head">' +
+            '<h3>' + escapeHTML(entry.item.nom) + '</h3>' +
+            '<span class="timeline-type">' + escapeHTML(TYPE_LABELS[entry.type]) + '</span>' +
+          '</div>' +
+          '<p>' + escapeHTML(monthsText) + '</p>' +
+          '<p>' + escapeHTML(detailText) + '</p>' +
+          '<div class="price-line"><span>' + icon('i-bell', 18) + ' ' + formatPrice(entry.item.prixBase) + '</span>' + specialPriceLabel(entry.item, entry.type) + '</div>' +
+          '<label class="capture-label timeline-capture"><input class="capture-input" type="checkbox" data-type="' + entry.type + '" data-id="' + entry.item.id + '"><span>Marquer capturée</span></label>' +
+        '</div>' +
+      '</article>';
+    }
+
+    function attachImageFallback(root) {
+      root.querySelectorAll('img').forEach((image) => {
+        image.addEventListener('error', () => {
+          image.style.display = 'none';
+          const missing = image.parentElement ? image.parentElement.querySelector('.image-missing') : null;
+          if (missing) missing.style.display = 'block';
+        }, { once: true });
+      });
+    }
+
+    function renderTimeline() {
+      const { start, end } = timelineMonthRange();
+      const months = timelineMonthsInRange();
+      const entries = timelineCritters();
+
+      dom.timelineRangeLabel.textContent = formatMonthFR(start) + ' → ' + formatMonthFR(end) + ' · Hémisphère ' + (state.hemisphere === 'sud' ? 'Sud' : 'Nord');
+      dom.timelineSummary.textContent = entries.length + ' manquante' + (entries.length > 1 ? 's' : '');
+
+      dom.timelineMonths.innerHTML = months.map((monthInfo) => {
+        const count = entries.filter((entry) => entry.activeMonths.some((active) => active.key === monthInfo.key)).length;
+        return '<div class="month-node"><strong>' + escapeHTML(monthInfo.label) + '</strong><span>' + count + ' à chopper</span></div>';
+      }).join('');
+
+      dom.timelineResults.innerHTML = entries.length
+        ? entries.map(renderTimelineCard).join('')
+        : '<div class="empty-state">Aucune manquante capturable sur cette période.</div>';
+
+      attachImageFallback(dom.timelineResults);
+    }
+
+    function renderCard(item) {
+      const caught = isCaught(state.activeType, item.id);
+      const available = isAvailableNow(item);
+      const months = formatMonths(getMonths(item));
+      const monthClass = available ? 'ok' : 'no';
+      const status = available ? '<span class="status-pill now">Disponible</span>' : '<span class="status-pill later">Pas ce mois-ci</span>';
+      const checked = caught ? ' checked' : '';
+      const cardClass = 'card' + (available ? ' available' : '') + (caught ? ' caught' : '');
+
+      return '<article class="' + cardClass + '" data-id="' + item.id + '">' +
+        '<div class="image-zone">' +
+          '<img src="' + escapeHTML(item.image) + '" alt="' + escapeHTML(item.nom) + '" loading="lazy" width="132" height="132">' +
+          '<span class="image-missing">Image manquante</span>' +
+        '</div>' +
+        '<div class="card-main">' +
+          '<div class="card-head">' +
+            '<div class="card-title-row"><h3>' + escapeHTML(item.nom) + '</h3>' + status + '</div>' +
+            '<span class="caught-ribbon">✓ Capturée</span>' +
+          '</div>' +
+          '<ul class="detail-list">' +
+            '<li>' + icon('i-pin') + '<span>' + escapeHTML(item.lieu) + '</span></li>' +
+            '<li>' + icon('i-calendar') + '<span class="months ' + monthClass + '">' + escapeHTML(months) + '</span></li>' +
+            '<li>' + icon('i-clock') + '<span>' + escapeHTML(formatHours(item)) + '</span></li>' +
+            extraDetail(item) +
+          '</ul>' +
+          '<div class="card-bottom">' +
+            '<div class="price-line"><span>' + icon('i-bell', 18) + ' ' + formatPrice(item.prixBase) + '</span>' + specialPriceLabel(item) + '</div>' +
+            '<label class="capture-label"><input class="capture-input" type="checkbox" data-type="' + state.activeType + '" data-id="' + item.id + '"' + checked + '><span>' + (caught ? 'Capturée' : 'Marquer capturée') + '</span></label>' +
+          '</div>' +
+        '</div>' +
+      '</article>';
+    }
+
+    function filteredItems() {
+      const query = normalizeSearch(dom.searchInput.value);
+      return CRITTERS[state.activeType].filter((item) => {
+        const searchOk = !query || normalizeSearch(item.nom).includes(query) || normalizeSearch(item.nomEN).includes(query);
+        const monthOk = !dom.availableOnly.checked || isAvailableNow(item);
+        const missingOk = !dom.missingOnly.checked || !isCaught(state.activeType, item.id);
+        return searchOk && monthOk && missingOk;
+      });
+    }
+
+    function renderMeta(items) {
+      const visible = items.length;
+      const available = items.filter(isAvailableNow).length;
+      const missingVisible = items.filter((item) => !isCaught(state.activeType, item.id)).length;
+      dom.listMeta.innerHTML = [
+        '<span class="meta-pill">' + visible + ' résultat' + (visible > 1 ? 's' : '') + '</span>',
+        '<span class="meta-pill">' + available + ' disponible' + (available > 1 ? 's' : '') + ' ce mois-ci</span>',
+        '<span class="meta-pill">' + missingVisible + ' à capturer</span>'
+      ].join('');
+    }
+
+    function render() {
+      const items = filteredItems();
+      dom.sectionTitle.textContent = TYPE_LABELS[state.activeType];
+      dom.tabs.forEach((tab) => tab.setAttribute('aria-selected', tab.dataset.type === state.activeType ? 'true' : 'false'));
+      renderMeta(items);
+      dom.grid.innerHTML = items.length ? items.map(renderCard).join('') : '<div class="empty-state">Aucune bestiole ne correspond aux filtres actuels.</div>';
+
+      attachImageFallback(dom.grid);
+      renderTimeline();
+      updateCounters(items.length);
+    }
+
+    /* ==============================
+       Interactions
+       ============================== */
+    dom.tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        state.activeType = tab.dataset.type;
+        render();
+      });
+    });
+
+    dom.hemisphereInputs.forEach((input) => {
+      input.checked = input.value === state.hemisphere;
+      input.addEventListener('change', () => {
+        state.hemisphere = input.value;
+        writeStorage(STORAGE_HEMISPHERE, state.hemisphere);
+        render();
+      });
+    });
+
+    dom.searchInput.addEventListener('input', render);
+    dom.availableOnly.addEventListener('change', render);
+    dom.missingOnly.addEventListener('change', render);
+    dom.timelineStart.addEventListener('change', renderTimeline);
+    dom.timelineEnd.addEventListener('change', renderTimeline);
+
+    dom.grid.addEventListener('change', (event) => {
+      const checkbox = event.target.closest('.capture-input');
+      if (!checkbox) return;
+      setCaught(checkbox.dataset.type, checkbox.dataset.id, checkbox.checked);
+      render();
+    });
+
+    dom.timelineResults.addEventListener('change', (event) => {
+      const checkbox = event.target.closest('.capture-input');
+      if (!checkbox) return;
+      setCaught(checkbox.dataset.type, checkbox.dataset.id, checkbox.checked);
+      render();
+    });
+
+    dom.resetButton.addEventListener('click', () => {
+      if (!window.confirm('Réinitialiser toutes les captures sauvegardées ?')) return;
+      Object.keys(CRITTERS).forEach((type) => CRITTERS[type].forEach((item) => removeStorage(caughtKey(type, item.id))));
+      dom.searchInput.value = '';
+      dom.missingOnly.checked = false;
+      render();
+    });
+
+    initTimelineDates();
+    render();
+  </script>
+</body>
+</html>
