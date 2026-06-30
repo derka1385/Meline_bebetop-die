@@ -270,9 +270,10 @@
       padding: 14px;
       border: 2px solid #fff;
       border-radius: 24px;
-      background: rgba(253, 248, 233, 0.92);
+      /* fond quasi opaque : pas de backdrop-filter (bug de tap sur les inputs
+         sous un élément sticky + backdrop-filter dans Safari iPad). */
+      background: rgba(253, 248, 233, 0.97);
       box-shadow: var(--shadow-soft), inset 0 0 0 1px var(--sand-line);
-      backdrop-filter: blur(10px);
     }
 
     .tabs {
@@ -920,6 +921,267 @@
 
     .icon-sprite { display: none; }
 
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+    }
+
+    /* ==============================
+       Catalogue : 3 sections façon Critterpédia in-game
+       ============================== */
+    .catalogue { margin-top: 26px; scroll-margin-top: 96px; }
+    .catalogue[data-type="fish"] { --accent: #3E9BD0; --accent-deep: #2C72A0; --accent-soft: #DCEEFB; }
+    .catalogue[data-type="sea"]  { --accent: var(--teal); --accent-deep: var(--teal-deep); --accent-soft: #D9F2EC; }
+    .catalogue[data-type="bugs"] { --accent: var(--leaf); --accent-deep: var(--leaf-deep); --accent-soft: #E7F4DA; }
+
+    .catalogue-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 0 2px 14px;
+    }
+    .catalogue-title { display: flex; align-items: center; gap: 11px; }
+    .cat-icon {
+      display: grid; place-items: center;
+      width: 42px; height: 42px;
+      border-radius: 13px; color: #fff;
+      background: linear-gradient(180deg, var(--accent), var(--accent-deep));
+      box-shadow: 0 4px 0 rgba(86, 66, 24, 0.2);
+    }
+    .catalogue-head h2 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(1.35rem, 3vw, 1.9rem);
+      color: var(--accent-deep);
+    }
+    .catalogue-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .catalogue-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+    }
+    @media (min-width: 480px) { .catalogue-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
+    @media (min-width: 680px) { .catalogue-grid { grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 9px; } }
+    @media (min-width: 1040px) { .catalogue-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 10px; } }
+    @media (min-width: 1240px) { .catalogue-grid { grid-template-columns: repeat(16, minmax(0, 1fr)); } }
+
+    .tile {
+      position: relative;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      padding: 9px;
+      border: 2px solid var(--sand-line);
+      border-radius: 14px;
+      background:
+        radial-gradient(58% 36% at 50% 82%, rgba(118, 184, 63, 0.32), transparent 72%),
+        linear-gradient(180deg, rgba(166, 228, 240, 0.6), rgba(255, 252, 242, 0.92));
+      box-shadow: 0 3px 0 rgba(120, 96, 40, 0.08);
+      cursor: pointer;
+      transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+    }
+    .tile:hover { transform: translateY(-2px); box-shadow: var(--shadow-soft); border-color: var(--accent); }
+    .tile:focus-visible { outline: 3px solid rgba(246, 198, 75, 0.95); outline-offset: 2px; }
+    .tile img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 5px rgba(70, 56, 20, 0.25));
+    }
+    .tile .image-missing {
+      font-size: 0.6rem; font-weight: 900; line-height: 1.1;
+      color: var(--muted); text-align: center;
+    }
+
+    /* capturée : cadre vert + pastille ✓ */
+    .tile.caught {
+      border-color: var(--leaf);
+      background: linear-gradient(180deg, #EAF7DD, #DCF1CC);
+    }
+    .tile.caught::after {
+      content: "";
+      position: absolute; top: -7px; right: -7px; z-index: 1;
+      width: 24px; height: 24px; border-radius: 50%;
+      background: linear-gradient(180deg, var(--leaf), var(--leaf-deep));
+      box-shadow: 0 2px 0 var(--leaf-dark);
+    }
+    .tile.caught::before {
+      content: "✓";
+      position: absolute; top: -7px; right: -7px; z-index: 2;
+      width: 24px; height: 24px;
+      display: grid; place-items: center;
+      color: #fff; font-weight: 900; font-size: 0.8rem;
+    }
+    /* disponible ce mois-ci (pas encore prise) : liseré + point vert */
+    .tile.available:not(.caught) { border-color: var(--leaf); }
+    .tile.available:not(.caught)::after {
+      content: "";
+      position: absolute; bottom: 7px; left: 7px;
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--leaf);
+      box-shadow: 0 0 0 3px rgba(98, 178, 60, 0.25);
+    }
+    .tile.is-hidden { display: none !important; }
+
+    .catalogue-empty {
+      margin: 6px 2px 0;
+      padding: 18px;
+      border: 2px dashed var(--sand-line);
+      border-radius: 16px;
+      color: var(--muted);
+      font-family: var(--font-display);
+      font-weight: 700;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.6);
+    }
+    .catalogue-empty[hidden] { display: none; }
+
+    /* ==============================
+       Modale : fiche détaillée (carte verticale)
+       ============================== */
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 100;
+      display: grid; place-items: center;
+      padding: 18px;
+      background: rgba(40, 52, 30, 0.5);
+      -webkit-backdrop-filter: blur(3px);
+      backdrop-filter: blur(3px);
+      animation: modalIn 160ms ease;
+    }
+    .modal-backdrop[hidden] { display: none; }
+    .modal-card {
+      position: relative;
+      width: min(420px, 100%);
+      max-height: 90dvh;
+      overflow: auto;
+      border: 3px solid #fff;
+      border-radius: 26px;
+      background: var(--parchment-2);
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
+    .modal-close {
+      position: absolute; top: 14px; right: 14px; z-index: 6;
+      width: 38px; height: 38px;
+      border: 2px solid rgba(255,255,255,0.6); border-radius: 50%;
+      color: #fff; font-weight: 900; font-size: 0.95rem;
+      background: linear-gradient(180deg, var(--coral), var(--coral-deep));
+      box-shadow: 0 3px 0 var(--coral-deep);
+    }
+    .modal-close:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--coral-deep); }
+    /* la fiche devient verticale dans la modale */
+    .modal-card .card {
+      grid-template-columns: 1fr;
+      border: 0;
+      box-shadow: none;
+      background: transparent;
+      opacity: 1 !important;
+    }
+    .modal-card .card .card-main { filter: none !important; padding: 14px 6px 4px; }
+    .modal-card .image-zone {
+      min-height: 210px;
+      border-radius: 18px;
+      box-shadow: inset 0 0 0 1px var(--sand-line);
+    }
+    .modal-card .image-zone img { width: 140px; height: 150px; }
+    .modal-card .card.available::before { display: none; }
+    .modal-card .caught-ribbon { top: 18px; right: 14px; }
+    @keyframes modalIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* ==============================
+       Onglet « Déjà capturées » (collection protégée)
+       ============================== */
+    body[data-type="caught"] { --accent: var(--bell-deep); --accent-deep: #B9821C; --accent-soft: #FBEFC9; }
+    body[data-type="caught"] .timeline-panel { display: none; }
+
+    .tab-button[data-type="caught"][aria-selected="true"] {
+      background: linear-gradient(180deg, #F6C64B, var(--bell-deep));
+    }
+    .tab-button[data-type="caught"] .tab-icon { color: var(--leaf-deep); }
+
+    /* badge de catégorie sur les fiches de la collection */
+    .card-type-badge {
+      justify-self: start;
+      padding: 3px 11px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 900;
+      color: var(--accent-deep);
+      background: var(--accent-soft);
+    }
+    .card-type-badge.type-bugs { color: var(--leaf-deep); background: #E7F4DA; }
+    .card-type-badge.type-fish { color: #2C72A0; background: #DCEEFB; }
+    .card-type-badge.type-sea  { color: var(--teal-deep); background: #D9F2EC; }
+
+    /* dans la collection, on assume l'objet « possédé » : moins terni */
+    .card.in-collection { opacity: 1; }
+    .card.in-collection .card-main { filter: none; }
+
+    .meta-lock {
+      color: var(--bell-deep);
+      border-color: rgba(224, 161, 44, 0.5);
+      background: #FBEFC9;
+    }
+
+    /* bouton de retrait : volontairement discret + confirmation (anti-clic accidentel) */
+    .uncatch-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-height: 44px;
+      padding: 0 14px;
+      border: 2px dashed var(--sand-line);
+      border-radius: 15px;
+      color: var(--muted);
+      font-family: var(--font-display);
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.7);
+      transition: color 140ms ease, border-color 140ms ease, background 140ms ease;
+    }
+    .uncatch-button svg { width: 16px; height: 16px; color: var(--leaf-deep); }
+    .uncatch-button:hover {
+      color: var(--coral-deep);
+      border-color: var(--coral);
+      background: #fff;
+    }
+    .uncatch-button:hover svg { color: var(--coral-deep); }
+    .uncatch-button:focus-visible {
+      outline: 3px solid rgba(246, 198, 75, 0.95);
+      outline-offset: 2px;
+    }
+    .uncatch-button { width: 100%; }
+
+    /* bouton « Marquer capturée » de la fiche (modale) */
+    .capture-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      width: 100%;
+      min-height: 48px;
+      padding: 0 14px;
+      border: 2px solid var(--leaf-deep);
+      border-radius: 15px;
+      color: #fff;
+      font-family: var(--font-display);
+      font-weight: 700;
+      background: linear-gradient(180deg, #71C24B, var(--leaf-deep));
+      box-shadow: 0 4px 0 var(--leaf-dark);
+      transition: transform 110ms ease, box-shadow 110ms ease;
+    }
+    .capture-button svg { width: 16px; height: 16px; }
+    .capture-button:hover { transform: translateY(-1px); }
+    .capture-button:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--leaf-dark); }
+    .capture-button:focus-visible {
+      outline: 3px solid rgba(246, 198, 75, 0.95);
+      outline-offset: 2px;
+    }
+
     /* ==============================
        Responsive
        ============================== */
@@ -1040,21 +1302,21 @@
          Navigation et filtres principaux
          ============================== -->
     <section class="control-panel" aria-label="Contrôles du tracker">
-      <nav class="tabs" role="tablist" aria-label="Catégories">
-        <button class="tab-button" type="button" role="tab" aria-selected="true" data-type="bugs">
-          <span class="tab-icon"><svg width="21" height="21"><use href="#i-bug"></use></svg></span>
-          <span><b>Insectes</b><small id="tabMetaBugs">0 manquantes</small></span>
-          <span class="tab-count" id="tabCountBugs">0 / 80</span>
-        </button>
-        <button class="tab-button" type="button" role="tab" aria-selected="false" data-type="fish">
+      <nav class="tabs" aria-label="Aller à une catégorie">
+        <button class="tab-button" type="button" data-target="cat-fish" data-type="fish" aria-selected="true">
           <span class="tab-icon"><svg width="21" height="21"><use href="#i-fish"></use></svg></span>
           <span><b>Poissons</b><small id="tabMetaFish">0 manquantes</small></span>
           <span class="tab-count" id="tabCountFish">0 / 80</span>
         </button>
-        <button class="tab-button" type="button" role="tab" aria-selected="false" data-type="sea">
+        <button class="tab-button" type="button" data-target="cat-sea" data-type="sea" aria-selected="false">
           <span class="tab-icon"><svg width="21" height="21"><use href="#i-wave"></use></svg></span>
           <span><b>Créatures marines</b><small id="tabMetaSea">0 manquantes</small></span>
           <span class="tab-count" id="tabCountSea">0 / 40</span>
+        </button>
+        <button class="tab-button" type="button" data-target="cat-bugs" data-type="bugs" aria-selected="false">
+          <span class="tab-icon"><svg width="21" height="21"><use href="#i-bug"></use></svg></span>
+          <span><b>Insectes</b><small id="tabMetaBugs">0 manquantes</small></span>
+          <span class="tab-count" id="tabCountBugs">0 / 80</span>
         </button>
       </nav>
 
@@ -1062,7 +1324,7 @@
         <div class="field search-field">
           <label for="searchInput">Rechercher par nom</label>
           <svg width="21" height="21"><use href="#i-search"></use></svg>
-          <input id="searchInput" type="search" autocomplete="off" placeholder="Ex : requin, papillon, crabe">
+          <input id="searchInput" type="search" inputmode="search" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="search" placeholder="Ex : requin, papillon, crabe">
         </div>
 
         <fieldset class="segment">
@@ -1081,6 +1343,48 @@
         <button class="reset-button" type="button" id="resetButton">Réinitialiser</button>
       </div>
     </section>
+
+
+    <!-- ==============================
+         Catalogue : 3 sections (poissons, créatures marines, insectes)
+         ============================== -->
+    <main id="content" tabindex="-1">
+      <section class="catalogue" id="cat-fish" data-type="fish" aria-labelledby="title-fish">
+        <div class="catalogue-head">
+          <div class="catalogue-title">
+            <span class="cat-icon"><svg width="22" height="22"><use href="#i-fish"></use></svg></span>
+            <h2 id="title-fish">Poissons</h2>
+          </div>
+          <div class="catalogue-meta" id="meta-fish"></div>
+        </div>
+        <div class="catalogue-grid" id="grid-fish" aria-label="Catalogue des poissons"></div>
+        <p class="catalogue-empty" id="empty-fish" hidden>Aucun poisson ne correspond aux filtres.</p>
+      </section>
+
+      <section class="catalogue" id="cat-sea" data-type="sea" aria-labelledby="title-sea">
+        <div class="catalogue-head">
+          <div class="catalogue-title">
+            <span class="cat-icon"><svg width="22" height="22"><use href="#i-wave"></use></svg></span>
+            <h2 id="title-sea">Créatures marines</h2>
+          </div>
+          <div class="catalogue-meta" id="meta-sea"></div>
+        </div>
+        <div class="catalogue-grid" id="grid-sea" aria-label="Catalogue des créatures marines"></div>
+        <p class="catalogue-empty" id="empty-sea" hidden>Aucune créature marine ne correspond aux filtres.</p>
+      </section>
+
+      <section class="catalogue" id="cat-bugs" data-type="bugs" aria-labelledby="title-bugs">
+        <div class="catalogue-head">
+          <div class="catalogue-title">
+            <span class="cat-icon"><svg width="22" height="22"><use href="#i-bug"></use></svg></span>
+            <h2 id="title-bugs">Insectes</h2>
+          </div>
+          <div class="catalogue-meta" id="meta-bugs"></div>
+        </div>
+        <div class="catalogue-grid" id="grid-bugs" aria-label="Catalogue des insectes"></div>
+        <p class="catalogue-empty" id="empty-bugs" hidden>Aucun insecte ne correspond aux filtres.</p>
+      </section>
+    </main>
 
     <!-- ==============================
          Timeline des manquantes capturables
@@ -1108,17 +1412,17 @@
       <div class="timeline-months" id="timelineMonths" aria-label="Mois de la période"></div>
       <div class="timeline-results" id="timelineResults" aria-live="polite"></div>
     </section>
+  </div>
 
-    <!-- ==============================
-         Grille des bestioles
-         ============================== -->
-    <main id="content" tabindex="-1">
-      <div class="list-top">
-        <h2 id="sectionTitle">Insectes</h2>
-        <div class="list-meta" id="listMeta"></div>
-      </div>
-      <section class="grid" id="critterGrid" role="tabpanel" aria-labelledby="sectionTitle"></section>
-    </main>
+  <!-- ==============================
+       Fiche détaillée (modale) — c'est ici qu'on marque / retire
+       ============================== -->
+  <div class="modal-backdrop" id="detailModal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="detailTitle" tabindex="-1">
+      <button class="modal-close" id="detailClose" type="button" aria-label="Fermer la fiche">✕</button>
+      <h2 id="detailTitle" class="sr-only">Fiche de la bestiole</h2>
+      <div id="detailBody"></div>
+    </div>
   </div>
 
   <script>
@@ -8579,7 +8883,14 @@
     };
 
     const dom = {
-      grid: document.getElementById('critterGrid'),
+      content: document.getElementById('content'),
+      grids: { bugs: document.getElementById('grid-bugs'), fish: document.getElementById('grid-fish'), sea: document.getElementById('grid-sea') },
+      metas: { bugs: document.getElementById('meta-bugs'), fish: document.getElementById('meta-fish'), sea: document.getElementById('meta-sea') },
+      empties: { bugs: document.getElementById('empty-bugs'), fish: document.getElementById('empty-fish'), sea: document.getElementById('empty-sea') },
+      sections: { bugs: document.getElementById('cat-bugs'), fish: document.getElementById('cat-fish'), sea: document.getElementById('cat-sea') },
+      modal: document.getElementById('detailModal'),
+      modalBody: document.getElementById('detailBody'),
+      modalClose: document.getElementById('detailClose'),
       globalCounter: document.getElementById('globalCounter'),
       progressPercent: document.getElementById('progressPercent'),
       progressFill: document.getElementById('progressFill'),
@@ -8588,8 +8899,6 @@
       visibleTotal: document.getElementById('visibleTotal'),
       activeHemiLabel: document.getElementById('activeHemiLabel'),
       monthLabel: document.getElementById('monthLabel'),
-      sectionTitle: document.getElementById('sectionTitle'),
-      listMeta: document.getElementById('listMeta'),
       timelineStart: document.getElementById('timelineStart'),
       timelineEnd: document.getElementById('timelineEnd'),
       timelineRangeLabel: document.getElementById('timelineRangeLabel'),
@@ -8750,7 +9059,7 @@
       const caught = Object.keys(CRITTERS).reduce((sum, type) => sum + caughtCount(type), 0);
       const missing = total - caught;
       const progress = total ? Math.round((caught / total) * 100) : 0;
-      const available = CRITTERS[state.activeType].filter(isAvailableNow).length;
+      const available = allItems().filter(({ item }) => isAvailableNow(item)).length;
 
       dom.globalCounter.textContent = caught + ' / ' + total + ' capturées';
       dom.progressPercent.textContent = progress + '%';
@@ -8774,9 +9083,9 @@
     /* ==============================
        Rendu de la grille
        ============================== */
-    function extraDetail(item) {
-      if (state.activeType === 'fish') return '<li>' + icon('i-eye') + '<span>Ombre : ' + escapeHTML(item.ombre) + '</span></li>';
-      if (state.activeType === 'sea') return '<li>' + icon('i-speed') + '<span>Vitesse : ' + escapeHTML(item.vitesse) + '</span></li>';
+    function extraDetail(item, type = state.activeType) {
+      if (type === 'fish') return '<li>' + icon('i-eye') + '<span>Ombre : ' + escapeHTML(item.ombre) + '</span></li>';
+      if (type === 'sea') return '<li>' + icon('i-speed') + '<span>Vitesse : ' + escapeHTML(item.vitesse) + '</span></li>';
       return '';
     }
 
@@ -8854,14 +9163,18 @@
       attachImageFallback(dom.timelineResults);
     }
 
-    function renderCard(item) {
-      const caught = isCaught(state.activeType, item.id);
+    /* Fiche détaillée (affichée dans la modale). Le marquage / retrait se fait ici. */
+    function renderCard(item, type) {
+      const caught = isCaught(type, item.id);
       const available = isAvailableNow(item);
       const months = formatMonths(getMonths(item));
       const monthClass = available ? 'ok' : 'no';
       const status = available ? '<span class="status-pill now">Disponible</span>' : '<span class="status-pill later">Pas ce mois-ci</span>';
-      const checked = caught ? ' checked' : '';
       const cardClass = 'card' + (available ? ' available' : '') + (caught ? ' caught' : '');
+      const typeBadge = '<span class="card-type-badge type-' + type + '">' + escapeHTML(TYPE_LABELS[type]) + '</span>';
+      const bottomAction = caught
+        ? '<button type="button" class="uncatch-button" data-type="' + type + '" data-id="' + item.id + '">' + icon('i-leaf', 16) + ' Retirer de la collection</button>'
+        : '<button type="button" class="capture-button" data-type="' + type + '" data-id="' + item.id + '">' + icon('i-check', 16) + ' Marquer capturée</button>';
 
       return '<article class="' + cardClass + '" data-id="' + item.id + '">' +
         '<div class="image-zone">' +
@@ -8871,65 +9184,124 @@
         '<div class="card-main">' +
           '<div class="card-head">' +
             '<div class="card-title-row"><h3>' + escapeHTML(item.nom) + '</h3>' + status + '</div>' +
+            typeBadge +
             '<span class="caught-ribbon">✓ Capturée</span>' +
           '</div>' +
           '<ul class="detail-list">' +
             '<li>' + icon('i-pin') + '<span>' + escapeHTML(item.lieu) + '</span></li>' +
             '<li>' + icon('i-calendar') + '<span class="months ' + monthClass + '">' + escapeHTML(months) + '</span></li>' +
             '<li>' + icon('i-clock') + '<span>' + escapeHTML(formatHours(item)) + '</span></li>' +
-            extraDetail(item) +
+            extraDetail(item, type) +
           '</ul>' +
           '<div class="card-bottom">' +
-            '<div class="price-line"><span>' + icon('i-bell', 18) + ' ' + formatPrice(item.prixBase) + '</span>' + specialPriceLabel(item) + '</div>' +
-            '<label class="capture-label"><input class="capture-input" type="checkbox" data-type="' + state.activeType + '" data-id="' + item.id + '"' + checked + '><span>' + (caught ? 'Capturée' : 'Marquer capturée') + '</span></label>' +
+            '<div class="price-line"><span>' + icon('i-bell', 18) + ' ' + formatPrice(item.prixBase) + '</span>' + specialPriceLabel(item, type) + '</div>' +
+            bottomAction +
           '</div>' +
         '</div>' +
       '</article>';
     }
 
-    function filteredItems() {
+    /* ==============================
+       Catalogue : filtres + tuiles + 3 sections
+       ============================== */
+    const SECTION_ORDER = ['fish', 'sea', 'bugs'];
+
+    function matchesFilters(item, type) {
       const query = normalizeSearch(dom.searchInput.value);
-      return CRITTERS[state.activeType].filter((item) => {
-        const searchOk = !query || normalizeSearch(item.nom).includes(query) || normalizeSearch(item.nomEN).includes(query);
-        const monthOk = !dom.availableOnly.checked || isAvailableNow(item);
-        const missingOk = !dom.missingOnly.checked || !isCaught(state.activeType, item.id);
-        return searchOk && monthOk && missingOk;
-      });
+      const searchOk = !query || normalizeSearch(item.nom).includes(query) || normalizeSearch(item.nomEN).includes(query);
+      const monthOk = !dom.availableOnly.checked || isAvailableNow(item);
+      const missingOk = !dom.missingOnly.checked || !isCaught(type, item.id);
+      return searchOk && monthOk && missingOk;
     }
 
-    function renderMeta(items) {
-      const visible = items.length;
-      const available = items.filter(isAvailableNow).length;
-      const missingVisible = items.filter((item) => !isCaught(state.activeType, item.id)).length;
-      dom.listMeta.innerHTML = [
-        '<span class="meta-pill">' + visible + ' résultat' + (visible > 1 ? 's' : '') + '</span>',
-        '<span class="meta-pill">' + available + ' disponible' + (available > 1 ? 's' : '') + ' ce mois-ci</span>',
-        '<span class="meta-pill">' + missingVisible + ' à capturer</span>'
+    function renderTile(item, type) {
+      const caught = isCaught(type, item.id);
+      const available = isAvailableNow(item);
+      const cls = 'tile' + (caught ? ' caught' : '') + (available ? ' available' : '');
+      const label = item.nom + (caught ? ' — capturée' : '') + (available && !caught ? ' — disponible ce mois-ci' : '');
+      return '<button type="button" class="' + cls + '" data-type="' + type + '" data-id="' + item.id + '" title="' + escapeHTML(item.nom) + '" aria-label="' + escapeHTML(label) + '">' +
+        '<img src="' + escapeHTML(item.image) + '" alt="" loading="lazy" width="64" height="64">' +
+        '<span class="image-missing">' + escapeHTML(item.nom) + '</span>' +
+      '</button>';
+    }
+
+    function renderCatalogue(type) {
+      const all = CRITTERS[type];
+      const items = all.filter((item) => matchesFilters(item, type));
+      dom.grids[type].innerHTML = items.map((item) => renderTile(item, type)).join('');
+      attachImageFallback(dom.grids[type]);
+
+      const caught = caughtCount(type);
+      dom.metas[type].innerHTML = [
+        '<span class="meta-pill">' + caught + ' / ' + all.length + ' capturées</span>',
+        '<span class="meta-pill">' + items.length + ' affichée' + (items.length > 1 ? 's' : '') + '</span>'
       ].join('');
+      dom.empties[type].hidden = items.length !== 0;
+      dom.grids[type].hidden = items.length === 0;
+      return items.length;
     }
 
     function render() {
-      const items = filteredItems();
-      document.body.setAttribute('data-type', state.activeType);
-      dom.sectionTitle.textContent = TYPE_LABELS[state.activeType];
-      dom.tabs.forEach((tab) => tab.setAttribute('aria-selected', tab.dataset.type === state.activeType ? 'true' : 'false'));
-      renderMeta(items);
-      dom.grid.innerHTML = items.length ? items.map(renderCard).join('') : '<div class="empty-state">Aucune bestiole ne correspond aux filtres actuels.</div>';
-
-      attachImageFallback(dom.grid);
+      const visible = SECTION_ORDER.reduce((sum, type) => sum + renderCatalogue(type), 0);
       renderTimeline();
-      updateCounters(items.length);
+      updateCounters(visible);
+      if (!dom.modal.hidden && dom.modal.dataset.id) {
+        openDetail(dom.modal.dataset.type, dom.modal.dataset.id, true);
+      }
+    }
+
+    /* ==============================
+       Fiche détaillée (modale)
+       ============================== */
+    let lastFocus = null;
+
+    function openDetail(type, id, keepFocus) {
+      const item = CRITTERS[type] && CRITTERS[type].find((critter) => String(critter.id) === String(id));
+      if (!item) return;
+      dom.modalBody.innerHTML = renderCard(item, type);
+      attachImageFallback(dom.modalBody);
+      dom.modal.dataset.type = type;
+      dom.modal.dataset.id = id;
+      if (dom.modal.hidden) {
+        dom.modal.hidden = false;
+        document.body.style.overflow = 'hidden';
+      }
+      if (!keepFocus) {
+        lastFocus = document.activeElement;
+        dom.modalClose.focus();
+      }
+    }
+
+    function closeDetail() {
+      if (dom.modal.hidden) return;
+      dom.modal.hidden = true;
+      dom.modal.removeAttribute('data-id');
+      document.body.style.overflow = '';
+      if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
     }
 
     /* ==============================
        Interactions
        ============================== */
+    /* Onglets = navigation : on défile jusqu'à la section. */
     dom.tabs.forEach((tab) => {
       tab.addEventListener('click', () => {
-        state.activeType = tab.dataset.type;
-        render();
+        const target = document.getElementById(tab.dataset.target);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     });
+
+    /* Surligne l'onglet de la section visible (scroll-spy). */
+    if ('IntersectionObserver' in window) {
+      const spy = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const type = entry.target.dataset.type;
+          dom.tabs.forEach((tab) => tab.setAttribute('aria-selected', tab.dataset.type === type ? 'true' : 'false'));
+        });
+      }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+      SECTION_ORDER.forEach((type) => spy.observe(dom.sections[type]));
+    }
 
     dom.hemisphereInputs.forEach((input) => {
       input.checked = input.value === state.hemisphere;
@@ -8946,13 +9318,34 @@
     dom.timelineStart.addEventListener('change', renderTimeline);
     dom.timelineEnd.addEventListener('change', renderTimeline);
 
-    dom.grid.addEventListener('change', (event) => {
-      const checkbox = event.target.closest('.capture-input');
-      if (!checkbox) return;
-      setCaught(checkbox.dataset.type, checkbox.dataset.id, checkbox.checked);
-      render();
+    /* Clic sur une tuile → ouvre la fiche détaillée. */
+    dom.content.addEventListener('click', (event) => {
+      const tile = event.target.closest('.tile');
+      if (!tile) return;
+      openDetail(tile.dataset.type, tile.dataset.id);
     });
 
+    /* Dans la fiche : marquer (direct) ou retirer (confirmation). */
+    dom.modalBody.addEventListener('click', (event) => {
+      const capture = event.target.closest('.capture-button');
+      const uncatch = event.target.closest('.uncatch-button');
+      if (capture) {
+        setCaught(capture.dataset.type, capture.dataset.id, true);
+        render();
+      } else if (uncatch) {
+        const title = dom.modalBody.querySelector('h3');
+        const name = title ? title.textContent : 'cette bestiole';
+        if (!window.confirm('Retirer « ' + name + ' » de ta collection ?')) return;
+        setCaught(uncatch.dataset.type, uncatch.dataset.id, false);
+        render();
+      }
+    });
+
+    dom.modalClose.addEventListener('click', closeDetail);
+    dom.modal.addEventListener('click', (event) => { if (event.target === dom.modal) closeDetail(); });
+    document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeDetail(); });
+
+    /* Cases de la timeline de chasse (inchangé). */
     dom.timelineResults.addEventListener('change', (event) => {
       const checkbox = event.target.closest('.capture-input');
       if (!checkbox) return;
@@ -8965,6 +9358,8 @@
       Object.keys(CRITTERS).forEach((type) => CRITTERS[type].forEach((item) => removeStorage(caughtKey(type, item.id))));
       dom.searchInput.value = '';
       dom.missingOnly.checked = false;
+      dom.availableOnly.checked = false;
+      closeDetail();
       render();
     });
 
